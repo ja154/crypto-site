@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - FYNOR</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .wallet-page-container {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .asset-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .asset-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .asset-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .asset-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <div class="container wallet-page-container">
+        <div class="wallet-header">
+            <h1>My Assets</h1>
+            <div>
+                <button class="btn btn-primary" onclick="showDepositForm()">Deposit</button>
+                <button class="btn btn-outline" onclick="showWithdrawForm()">Withdraw</button>
+            </div>
+        </div>
+
+        <div id="wallet-assets-list">
+            <div style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                <i class="fas fa-spinner fa-spin"></i> Loading assets...
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="js/components.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.loadWalletPage) {
+                window.loadWalletPage();
+            } else {
+                // Fallback if app.js not ready or function missing
+                setTimeout(() => {
+                    if (window.loadWalletPage) window.loadWalletPage();
+                }, 500);
+            }
+        });
+    </script>
+</body>
+
+</html>

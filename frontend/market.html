@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markets - FYNOR</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .market-page-header {
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            color: var(--text-primary);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .market-table-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .market-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .market-table th,
+        .market-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .market-table th {
+            background: var(--bg-darker);
+            color: var(--text-secondary);
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .market-table tr:hover {
+            background: var(--bg-darker);
+            cursor: pointer;
+        }
+
+        .coin-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .coin-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <div class="container">
+        <div class="market-page-header">
+            <h1 style="font-size: 2.5rem; margin-bottom: 2rem;">Markets</h1>
+        </div>
+
+        <!-- Top Highlight Cards -->
+        <div class="market-highlights" id="marketHighlights">
+            <!-- Cards will be injected here -->
+            <div class="highlight-card">
+                <div class="highlight-header">
+                    <div class="highlight-symbol">
+                        <i class="fab fa-bitcoin" style="color: #F7931A; margin-right: 8px;"></i> BTC/USDT
+                    </div>
+                    <div class="highlight-change positive">+2.5%</div>
+                </div>
+                <div class="highlight-price">$43,250.50</div>
+                <div class="highlight-vol">Vol: 12,345 BTC</div>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-header">
+                    <div class="highlight-symbol">
+                        <i class="fab fa-ethereum" style="color: #627EEA; margin-right: 8px;"></i> ETH/USDT
+                    </div>
+                    <div class="highlight-change negative">-1.2%</div>
+                </div>
+                <div class="highlight-price">$2,250.50</div>
+                <div class="highlight-vol">Vol: 145,345 ETH</div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="market-tabs-container">
+            <div class="main-tabs">
+                <button class="tab-btn active"><i class="fas fa-star"></i> Favorites</button>
+                <button class="tab-btn">Spot</button>
+            </div>
+            <div class="sub-tabs">
+                <span class="sub-tab active">All Markets</span>
+                <span style="color: var(--text-secondary);">|</span>
+                <span class="sub-tab">USDT</span>
+            </div>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="marketSearch" placeholder="Search Coin Name" onkeyup="filterMarkets()">
+            </div>
+        </div>
+
+        <!-- Market List Container -->
+        <div class="v5Market-table">
+            <ul class="table-thead">
+                <li class="th" style="flex: 0.3;"><i class="fas fa-star" style="color: var(--text-secondary);"></i></li>
+                <li class="th">Name</li>
+                <li class="th">Last Price</li>
+                <li class="th">Change</li>
+                <li class="th">High</li>
+                <li class="th">Low</li>
+                <li class="th">24h Volume</li>
+                <li class="th">Market Cap</li>
+                <li class="th">Action</li>
+            </ul>
+            <div class="table-tbody">
+                <div class="__panel" id="marketTableBody">
+                    <!-- Rows will be injected here -->
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <i class="fas fa-spinner fa-spin"></i> Loading Markets...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script src="js/components.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllMarkets();
+        });
+
+        async function loadAllMarkets() {
+            try {
+                const response = await fetch(`${API_URL}/market/pairs`);
+                const pairs = await response.json();
+                window.allPairs = pairs; // Store for filtering
+                renderMarketTable(pairs);
+            } catch (error) {
+                console.error('Error loading markets:', error);
+            }
+        }
+
+        function renderMarketTable(pairs) {
+            const tbody = document.getElementById('marketTableBody');
+
+            // Render Highlights (First 2 pairs for demo)
+            updateHighlights(pairs.slice(0, 2));
+
+            tbody.innerHTML = pairs.map(pair => {
+                const change = parseFloat(pair.change_24h);
+                const changeClass = change >= 0 ? 'positive' : 'negative';
+                const changeSign = change >= 0 ? '+' : '';
+                const [base, quote] = pair.symbol.split('/');
+                const isFavorite = localStorage.getItem(`fav_${pair.symbol}`) === 'true';
+                const starClass = isFavorite ? 'fas' : 'far';
+                const starColor = isFavorite ? '#F7931A' : 'var(--text-secondary)';
+
+                return `
+                <div class="tr" onclick="window.location.href='trade.html?symbol=${pair.symbol}'">
+                    <ul class="symbol-detail">
+                        <li class="td" style="flex: 0.3; text-align: left;" onclick="toggleFavorite(event, '${pair.symbol}')">
+                            <i class="${starClass} fa-star" style="color: ${starColor}; cursor: pointer;"></i>
+                        </li>
+                        <li class="td symbol">
+                            <div class="coin-info">
+                                <div class="coin-icon">${base[0]}</div>
+                                <div>
+                                    <span class="symbol-name" style="font-weight: bold;">${base}</span>
+                                    <span class="symbol-quote">/ ${quote}</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="td" style="font-weight: bold;">$${parseFloat(pair.last_price).toLocaleString()}</li>
+                        <li class="td ${changeClass}">${changeSign}${change.toFixed(2)}%</li>
+                        <li class="td">$${parseFloat(pair.high_24h).toLocaleString()}</li>
+                        <li class="td">$${parseFloat(pair.low_24h).toLocaleString()}</li>
+                        <li class="td">${parseFloat(pair.volume_24h).toLocaleString()}</li>
+                        <li class="td">$${(parseFloat(pair.last_price) * 19000000).toLocaleString()}</li>
+                        <li class="td operate">
+                            <a href="trade.html?symbol=${pair.symbol}">Trade</a>
+                        </li>
+                    </ul>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function updateHighlights(pairs) {
+            const container = document.getElementById('marketHighlights');
+            if (!container || pairs.length === 0) return;
+
+            container.innerHTML = pairs.map(pair => {
+                const change = parseFloat(pair.change_24h);
+                const changeClass = change >= 0 ? 'positive' : 'negative';
+                const changeSign = change >= 0 ? '+' : '';
+
+                return `
+                <div class="highlight-card" onclick="window.location.href='trade.html?symbol=${pair.symbol}'" style="cursor: pointer;">
+                    <div class="highlight-header">
+                        <div class="highlight-symbol">
+                            ${pair.symbol}
+                        </div>
+                        <div class="highlight-change ${changeClass}">${changeSign}${change.toFixed(2)}%</div>
+                    </div>
+                    <div class="highlight-price">$${parseFloat(pair.last_price).toLocaleString()}</div>
+                    <div class="highlight-vol">Vol: ${parseFloat(pair.volume_24h).toLocaleString()}</div>
+                </div>
+                 `;
+            }).join('');
+        }
+
+        function toggleFavorite(event, symbol) {
+            event.stopPropagation();
+            const current = localStorage.getItem(`fav_${symbol}`) === 'true';
+            localStorage.setItem(`fav_${symbol}`, !current);
+            filterMarkets(); // Re-render to update icon
+        }
+
+        function filterMarkets() {
+            const query = document.getElementById('marketSearch').value.toLowerCase();
+            const filtered = window.allPairs.filter(pair => pair.symbol.toLowerCase().includes(query));
+            renderMarketTable(filtered);
+        }
+    </script>
+</body>
+
+</html>

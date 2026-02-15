@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F4D03F;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#D29A23;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8851F;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Top wave -->
+  <path d="M 30 20 Q 45 10, 60 20 T 90 20" 
+        fill="url(#goldGradient)" 
+        stroke="none"/>
+  <!-- Bottom wave -->
+  <path d="M 30 50 Q 45 60, 60 50 T 90 50" 
+        fill="url(#goldGradient)" 
+        stroke="none"/>
+  <!-- Connecting element -->
+  <circle cx="30" cy="70" r="12" fill="url(#goldGradient)"/>
+</svg>
