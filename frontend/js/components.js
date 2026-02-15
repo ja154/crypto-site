@@ -263,7 +263,7 @@ function loadModals() {
                             </select>
                         </div>
                         <div style="text-align: center; margin: 2rem 0;">
-                            <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=0x1234567890abcdef1234567890abcdef12345678&choe=UTF-8" alt="QR Code" style="border-radius: 8px;">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=0x1234567890abcdef1234567890abcdef12345678" alt="QR Code" style="border-radius: 8px;">
                                 <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">Scan QR code to deposit</p>
                         </div>
                         <div class="form-group">
