@@ -47,13 +47,47 @@ fi
 
 # Run schema
 echo "Initializing database schema..."
-psql -U postgres -d fynor_clone -f database/schema.sql
+psql -U postgres -d fynor_clone -f backend/schema.sql 2>/dev/null
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✅ Database schema initialized${NC}"
 else
-    echo -e "${RED}❌ Failed to initialize database schema${NC}"
-    exit 1
+    echo -e "${YELLOW}⚠️  Default psql command failed - attempting fallbacks...${NC}"
+
+    # Fallback 1: try running as postgres system user (common on Linux)
+    if command -v sudo &> /dev/null; then
+        echo "Trying: sudo -u postgres psql -d fynor_clone -f backend/schema.sql"
+        sudo -u postgres psql -d fynor_clone -f backend/schema.sql
+        if [ $? -eq 0 ]; then
+            echo -e "${GREEN}✅ Database schema initialized (via sudo -u postgres)${NC}"
+        else
+            echo -e "${YELLOW}⚠️  sudo fallback failed. Trying DATABASE_URL from backend/.env if available...${NC}"
+
+            # Fallback 2: try using DATABASE_URL from backend/.env if present
+            if [ -f backend/.env ]; then
+                DATABASE_URL=$(grep '^DATABASE_URL=' backend/.env | cut -d'=' -f2-)
+                if [ -n "$DATABASE_URL" ]; then
+                    echo "Trying: psql \"$DATABASE_URL\" -f backend/schema.sql"
+                    psql "$DATABASE_URL" -f backend/schema.sql
+                    if [ $? -eq 0 ]; then
+                        echo -e "${GREEN}✅ Database schema initialized (via DATABASE_URL)${NC}"
+                    else
+                        echo -e "${RED}❌ Failed to initialize database schema using DATABASE_URL${NC}"
+                        exit 1
+                    fi
+                else
+                    echo -e "${RED}❌ DATABASE_URL not found in backend/.env${NC}"
+                    exit 1
+                fi
+            else
+                echo -e "${RED}❌ backend/.env not found; cannot use DATABASE_URL fallback${NC}"
+                exit 1
+            fi
+        fi
+    else
+        echo -e "${RED}❌ sudo not available to attempt postgres user fallback${NC}"
+        exit 1
+    fi
 fi
 
 echo ""

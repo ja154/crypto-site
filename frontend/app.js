@@ -7,6 +7,17 @@ let ws = null;
 let currentSort = 'hot'; // Default sort
 let allPairs = []; // Store market pairs globally
 
+// Symbol helpers
+function apiSymbol(symbol) {
+    if (!symbol) return symbol;
+    return symbol.replace(/\//g, '_'); // API-friendly (no slashes in path)
+}
+
+function canonicalSymbol(symbol) {
+    if (!symbol) return symbol;
+    return symbol.replace(/[_-]/g, '/'); // Display/storage format
+}
+
 // ==================== INITIALIZATION ====================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -77,8 +88,12 @@ window.onclick = function (event) {
 async function handleLogin(event) {
     event.preventDefault();
 
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+    // Support both modal (`loginEmail`, `loginPassword`) and page (`loginEmailPage`, `loginPasswordPage`)
+    const emailEl = document.getElementById('loginEmail') || document.getElementById('loginEmailPage');
+    const passwordEl = document.getElementById('loginPassword') || document.getElementById('loginPasswordPage');
+
+    const email = emailEl ? emailEl.value.trim() : '';
+    const password = passwordEl ? passwordEl.value : '';
 
     try {
         const response = await fetch(`${API_URL}/auth/login`, {
@@ -96,8 +111,15 @@ async function handleLogin(event) {
             localStorage.setItem('authToken', authToken);
             currentUser = data.user;
             updateUIForLoggedInUser();
-            closeModal('loginModal');
-            showAlert('Login successful!', 'success');
+
+            // If on standalone login page, redirect to home
+            if (window.location.pathname.endsWith('login.html')) {
+                showAlert('Login successful! Redirecting...', 'success');
+                setTimeout(() => { window.location.href = 'index.html'; }, 800);
+            } else {
+                closeModal('loginModal');
+                showAlert('Login successful!', 'success');
+            }
         } else {
             showAlert(data.error || 'Login failed', 'error');
         }
@@ -110,17 +132,33 @@ async function handleLogin(event) {
 async function handleRegister(event) {
     event.preventDefault();
 
-    const full_name = document.getElementById('registerName').value;
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
+    // Support both modal (`registerName`, `registerEmail`, `registerPassword`)
+    // and standalone page (`registerNamePage`, `registerEmailPage`, `registerPasswordPage`)
+    const nameEl = document.getElementById('registerName') || document.getElementById('registerNamePage');
+    const emailEl = document.getElementById('registerEmail') || document.getElementById('registerEmailPage');
+    const passwordEl = document.getElementById('registerPassword') || document.getElementById('registerPasswordPage');
+
+    let full_name = nameEl ? nameEl.value.trim() : '';
+    const email = emailEl ? emailEl.value.trim() : '';
+    const password = passwordEl ? passwordEl.value : '';
+
+    // Support referral/invite code fields
+    const referral = (document.getElementById('referralCode') && document.getElementById('referralCode').value) || (document.getElementById('registerInvitePage') && document.getElementById('registerInvitePage').value) || undefined;
+
+    if (!full_name && email) {
+        full_name = email.split('@')[0];
+    }
 
     try {
+        const body = { full_name, email, password };
+        if (referral) body.referral = referral;
+
         const response = await fetch(`${API_URL}/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ full_name, email, password }),
+            body: JSON.stringify(body),
         });
 
         const data = await response.json();
@@ -130,8 +168,15 @@ async function handleRegister(event) {
             localStorage.setItem('authToken', authToken);
             currentUser = data.user;
             updateUIForLoggedInUser();
-            closeModal('registerModal');
-            showAlert('Account created successfully!', 'success');
+
+            // If on standalone register page, redirect to home
+            if (window.location.pathname.endsWith('register.html')) {
+                showAlert('Account created successfully! Redirecting...', 'success');
+                setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+            } else {
+                closeModal('registerModal');
+                showAlert('Account created successfully!', 'success');
+            }
         } else {
             showAlert(data.error || 'Registration failed', 'error');
         }
@@ -348,17 +393,7 @@ async function initTradePage() {
 
     // Fetch Ticker
     try {
-        const response = await fetch(`${API_URL}/market/ticker/${symbol.replace('/', '_')}`); // Ensure correct format if needed
-        // Note: server.js uses :symbol, likely expecting 'BTC-USDT' or 'BTCUSDT'. 
-        // Let's assume the server handles 'BTC/USDT' or we might need to encode it.
-        // Based on server.js view (step 19), it just uses req.params.symbol. 
-        // Best to send as is or encoded. Let's try encoded first or just matching the data which has slash.
-
-        // Actually, let's just use the pair list to find it if ticker endpoint is tricky, 
-        // but ticker endpoint is better.
-        // Let's stick to the previous plan but be careful about the slash.
-        // Using encodeURIComponent is safer:
-        const safeSymbol = encodeURIComponent(symbol);
+        const safeSymbol = encodeURIComponent(apiSymbol(symbol));
         const tickerResponse = await fetch(`${API_URL}/market/ticker/${safeSymbol}`);
 
         if (tickerResponse.ok) {
@@ -724,7 +759,7 @@ async function placeOrder(event) {
 
     // Determine symbol from URL or Header
     const urlParams = new URLSearchParams(window.location.search);
-    const symbol = urlParams.get('symbol') || 'BTC/USDT';
+    const symbol = urlParams.get('symbol') ? decodeURIComponent(urlParams.get('symbol')) : 'BTC/USDT';
 
     try {
         const response = await fetch(`${API_URL}/trading/order`, {
@@ -734,7 +769,7 @@ async function placeOrder(event) {
                 'Authorization': `Bearer ${authToken}`,
             },
             body: JSON.stringify({
-                symbol,
+                symbol: apiSymbol(symbol),
                 side,
                 type: 'LIMIT', // Default to LIMIT for now
                 price,

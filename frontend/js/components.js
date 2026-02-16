@@ -7,10 +7,10 @@ function loadHeader() {
             <div class="header-content">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="https://s3.ap-southeast-1.amazonaws.com/fynor/comjma17540568782486.png" alt="FYNOR" height="40">
+                        <img src="https://s3.ap-southeast-1.amazonaws.com/fynor/comjma17540568782486.png" alt="FYNOR" height="28">
                     </a>
                 </div>
-                
+
                 <nav class="main-nav">
                     <a href="index.html#market" class="nav-link">Market</a>
                     <div class="dropdown">
@@ -42,22 +42,22 @@ function loadHeader() {
                             </div>
                         </div>
                     </div>
-                     <div class="dropdown">
-                        <a href="#" class="nav-link">Earn <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="#" class="nav-link">AIEX <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-content">
-                            <a href="#" onclick="showComponentsAlert('Staking')">Staking</a>
-                            <a href="#" onclick="showComponentsAlert('Savings')">Savings</a>
-                            <a href="#" onclick="showComponentsAlert('Launchpad')">Launchpad</a>
+                            <a href="#" onclick="showComponentsAlert('AI Tools')">AI Tools</a>
+                            <a href="#" onclick="showComponentsAlert('Analytics')">Analytics</a>
                         </div>
                     </div>
-                    <a href="wallet.html" class="nav-link">Wallet</a>
-                    <a href="orders.html" class="nav-link">Orders</a>
                 </nav>
 
                 <div class="header-actions">
-                    <div id="authButtons" class="auth-buttons">
-                        <button class="btn btn-outline" onclick="showLoginModal()">Log In</button>
-                        <button class="btn btn-primary" onclick="showRegisterModal()">Sign Up</button>
+                    <div class="top-controls">
+                        <a href="#" class="small-link" onclick="window.location.href='login.html'">Log In</a>
+                        <button class="btn btn-primary btn-sm" onclick="window.location.href='register.html'">Sign Up</button>
+                        <a href="#" class="small-icon" title="Download"><i class="fas fa-download"></i></a>
+                        <a href="#" class="small-icon" title="Toggle theme"><i class="fas fa-sun"></i></a>
+                        <a href="#" class="small-link">English</a>
                     </div>
                     <div id="userMenu" class="user-menu" style="display: none;">
                         <button class="btn btn-icon" onclick="toggleUserDropdown()">
@@ -73,9 +73,6 @@ function loadHeader() {
                             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
                             <a href="#" onclick="logout()">Log Out</a>
                         </div>
-                    </div>
-                    <div class="lang-selector">
-                        <i class="fas fa-globe"></i> EN
                     </div>
                 </div>
             </div>
@@ -183,8 +180,8 @@ function loadModals() {
                     <button class="btn btn-google btn-full" onclick="loginWithGoogle()">
                         <i class="fab fa-google"></i> Continue with Google
                     </button>
-                    <p class="modal-footer">
-                        Don't have an account? <a href="#" onclick="showRegisterModal()">Sign Up</a>
+                        <p class="modal-footer">
+                        Don't have an account? <a href="register.html">Sign Up</a>
                         <br><br>
                             <a href="#">Forgot Password?</a>
                         </p>
@@ -224,7 +221,7 @@ function loadModals() {
                             <i class="fab fa-google"></i> Continue with Google
                         </button>
                         <p class="modal-footer">
-                            Already have an account? <a href="#" onclick="showLoginModal()">Log In</a>
+                            Already have an account? <a href="login.html">Log In</a>
                         </p>
                     </div>
                 </div>

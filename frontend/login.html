@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log In - FYNOR</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main class="login-page" style="min-height: calc(100vh - 80px); display:flex; align-items:center;">
+        <div class="container" style="max-width:720px; margin:0 auto;">
+            <div style="background:#fff; padding:2.5rem; border-radius:12px; box-shadow: 0 6px 18px rgba(0,0,0,0.06);">
+                <h2 style="font-size:1.75rem; margin-bottom:1rem;">Welcome back</h2>
+                <p style="color:var(--text-secondary); margin-bottom:1.5rem;">Log in to access your account and start trading.</p>
+
+                <form id="loginFormPage" onsubmit="handleLogin(event)">
+                    <label style="display:block; font-size:0.9rem; color:#555; margin-bottom:0.5rem;">Email or Phone</label>
+                    <input id="loginEmailPage" type="text" placeholder="Email or phone" required style="width:100%;padding:0.9rem;border-radius:8px;border:1px solid #e9e9e9;margin-bottom:1rem;">
+
+                    <label style="display:block; font-size:0.9rem; color:#555; margin-bottom:0.5rem;">Password</label>
+                    <input id="loginPasswordPage" type="password" placeholder="Password" required style="width:100%;padding:0.9rem;border-radius:8px;border:1px solid #e9e9e9;margin-bottom:1rem;">
+
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                        <div>
+                            <input id="rememberMe" type="checkbox" style="width:16px;height:16px;"> <label for="rememberMe" style="font-size:0.9rem;color:#666;">Remember me</label>
+                        </div>
+                        <div><a href="#" style="font-size:0.9rem;color:var(--secondary-color);">Forgot password?</a></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full" style="padding:0.75rem;border-radius:999px;">Log In</button>
+
+                    <div style="text-align:center;color:#777;font-size:0.9rem;margin-top:0.75rem;">Don't have an account? <a href="register.html">Sign Up</a></div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/components.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

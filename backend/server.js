@@ -117,6 +117,14 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+// Normalize symbol helper: accept formats like "BTC/USDT", "BTC-USDT", or "BTC_USDT"
+function normalizeSymbolParam(raw) {
+  if (!raw) return raw;
+  if (raw.includes('/')) return raw;
+  // Convert common separators to canonical forward-slash format
+  return raw.replace(/[-_]/g, '/');
+}
+
 // ==================== AUTH ROUTES ====================
 
 // Google OAuth
@@ -277,7 +285,8 @@ app.get('/market/pairs', async (req, res) => {
 // Get ticker for specific pair
 app.get('/market/ticker/:symbol', async (req, res) => {
   try {
-    const { symbol } = req.params;
+    const rawSymbol = req.params.symbol;
+    const symbol = normalizeSymbolParam(rawSymbol);
     const result = await pool.query(
       'SELECT * FROM trading_pairs WHERE symbol = $1',
       [symbol]
@@ -297,7 +306,8 @@ app.get('/market/ticker/:symbol', async (req, res) => {
 // Get recent trades
 app.get('/market/trades/:symbol', async (req, res) => {
   try {
-    const { symbol } = req.params;
+    const rawSymbol = req.params.symbol;
+    const symbol = normalizeSymbolParam(rawSymbol);
     const limit = req.query.limit || 50;
     
     const result = await pool.query(
@@ -351,7 +361,9 @@ app.post('/trading/order', authenticateToken, async (req, res) => {
   const client = await pool.connect();
   
   try {
-    const { symbol, side, type, price, quantity } = req.body;
+    const { side, type, price, quantity } = req.body;
+    const rawSymbol = req.body.symbol;
+    const symbol = normalizeSymbolParam(rawSymbol);
     
     await client.query('BEGIN');
 

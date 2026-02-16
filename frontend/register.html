@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Account - FYNOR</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <main class="signup-page" style="min-height: calc(100vh - 80px);">
+        <div class="signup-grid container" style="display:grid;grid-template-columns:1fr 560px;gap:0;align-items:center;">
+
+            <!-- Left promotional column -->
+            <section class="signup-left" style="background:#0b0b0b;padding:6rem 4rem;color:var(--text-primary);">
+                <h1 style="color:#D29A23;font-size:2.25rem;margin-bottom:0.5rem;">Welcome to FYNOR</h1>
+                <p style="font-size:1.25rem;margin-bottom:2rem;color:var(--text-secondary);">Sign up today and earn a bonus to start trading.</p>
+
+                <div style="max-width:380px;margin-top:4rem;">
+                    <img src="https://assets.binance.com/image-api/v1/introduction/20191218/1e58287d-847e-406e-827c-02685295c276.png" alt="promo" style="width:100%;opacity:0.95;">
+                </div>
+            </section>
+
+            <!-- Right form column -->
+            <aside class="signup-right" style="background:#ffffff;padding:4rem 3rem;border-left:1px solid #f3f3f3;">
+                <div style="max-width:420px;margin:0 auto;color:#111;">
+                    <h2 style="font-size:2rem;margin-bottom:1.5rem;color:#111;font-weight:700;">Create Account</h2>
+
+                    <form id="registerFormPage" onsubmit="handleRegister(event)">
+                        <label style="font-size:0.9rem;color:#555;display:block;margin-bottom:0.5rem;">Email address</label>
+                        <input id="registerEmailPage" type="email" placeholder="Email address" required style="width:100%;padding:0.9rem;border-radius:28px;border:1px solid #e9e9e9;margin-bottom:1rem;">
+
+                        <label style="font-size:0.9rem;color:#555;display:block;margin-bottom:0.5rem;">Password</label>
+                        <input id="registerPasswordPage" type="password" placeholder="Password" required style="width:100%;padding:0.9rem;border-radius:28px;border:1px solid #e9e9e9;margin-bottom:1rem;">
+
+                        <label style="font-size:0.9rem;color:#555;display:block;margin-bottom:0.5rem;">Invitation Code (optional)</label>
+                        <input id="registerInvitePage" type="text" placeholder="Invitation code" style="width:100%;padding:0.85rem;border-radius:28px;border:1px solid #e9e9e9;margin-bottom:1rem;">
+
+                        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
+                            <input id="agreeTos" type="checkbox" style="width:16px;height:16px;">
+                            <label for="agreeTos" style="font-size:0.9rem;color:#666;">I have read and agree to FYNOR's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full" style="border-radius:999px;padding:0.75rem 1rem;margin-bottom:0.75rem;">Sign Up</button>
+
+                        <div style="text-align:center;color:#777;font-size:0.9rem;margin-top:0.5rem;">Already registered? <a href="#" onclick="showLoginModal()">Login now</a></div>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="js/components.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

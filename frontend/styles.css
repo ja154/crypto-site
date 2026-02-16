@@ -188,6 +188,13 @@ body {
     font-size: 1.1rem;
 }
 
+/* Small button variant for header */
+.btn-sm {
+    padding: 0.35rem 0.8rem;
+    font-size: 0.875rem;
+    border-radius: 18px;
+}
+
 .btn-full {
     width: 100%;
 }
@@ -215,6 +222,31 @@ body {
     display: flex;
     gap: 1rem;
 }
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.top-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.small-link {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.small-link:hover { color: var(--primary-color); }
+
+.small-icon { color: var(--text-secondary); font-size: 0.95rem; }
+
+.small-icon:hover { color: var(--primary-color); }
 
 .avatar {
     width: 32px;
