@@ -84,11 +84,27 @@
                 <!-- Desktop Nav Links -->
                 <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
                     <a href="market.html" class="hover:text-brand-gold transition-colors">Market</a>
+                    <!-- Spot Dropdown -->
                     <div class="group relative cursor-pointer">
                         <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
                             Spot 
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <svg class="w-3 h-3 fill-none stroke-current transition-transform group-hover:stroke-brand-gold" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </span>
+                        <!-- Dropdown Menu -->
+                        <div class="absolute left-0 mt-0 w-48 bg-brand-card border border-brand-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-2">
+                            <a href="spot-classic.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors">
+                                <div class="font-medium">Classic</div>
+                                <div class="text-xs text-gray-500">Standard trading interface</div>
+                            </a>
+                            <a href="spot-advanced.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors">
+                                <div class="font-medium">Advanced</div>
+                                <div class="text-xs text-gray-500">Professional trading tools</div>
+                            </a>
+                            <a href="spot-margin.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors border-t border-brand-border">
+                                <div class="font-medium">Margin</div>
+                                <div class="text-xs text-gray-500">Leverage trading</div>
+                            </a>
+                        </div>
                     </div>
                     <div class="group relative cursor-pointer">
                         <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
