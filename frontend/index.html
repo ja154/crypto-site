@@ -1,270 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FYNOR - Cryptocurrency Exchange</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" href="favicon.ico">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>FYNOR - The Most Trustworthy Blockchain Digital Asset</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            gold: '#dea638', // Main brand gold
+                            goldHover: '#c49230',
+                            black: '#000000',
+                            dark: '#0a0a0a', // Slightly lighter black for contrast
+                            card: '#121212', // Card background
+                            border: '#27272a', // Zinc 800
+                            green: '#10b981', // Crypto success
+                            red: '#f43f5e',   // Crypto danger
+                            text: '#9ca3af',  // Secondary text
+                        }
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #dea638 0%, #f59e0b 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for table if needed */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+        
+        .glass-effect {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Announcement banner gradients */
+        .banner-1 {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,240,0.9) 100%);
+        }
+        .banner-2 {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,240,0.9) 100%);
+        }
+    </style>
 </head>
+<body class="bg-brand-black text-white font-sans antialiased selection:bg-brand-gold selection:text-black min-h-screen flex flex-col">
 
-<body>
-    <!-- Header -->
-    <div id="header-container"></div>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-grid">
-                <!-- Left Column: Title + Email + Buttons -->
-                <div class="hero-left">
-                    <h1 class="hero-title">The Most Trustworthy Blockchain digital asset </h1>
-                    <h2 class="hero-subtitle">FYNOR</h2>
-                    <div class="hero-signup-form">
-                        <input type="text" placeholder="Email/Phone" class="hero-input">
-                        <button class="btn btn-primary" onclick="showRegisterModal()">Sign Up</button>
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-black/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Left: Logo & Links -->
+            <div class="flex items-center gap-12">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-8 h-8 relative">
+                         <!-- Abstract Wing/F Logo -->
+                        <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-brand-gold">
+                            <path d="M4 12C4 12 5.5 8 10 6C14.5 4 19 5 19 5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 16C5 16 7 13 11 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6C12 6 12 3 15 3C18 3 20 4 20 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-70"/>
+                        </svg>
                     </div>
-                    <div class="download-app-link">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>Download App</span>
+                    <span class="text-xl font-bold tracking-wide">FYNOR</span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                    <a href="market.html" class="hover:text-brand-gold transition-colors">Market</a>
+                    <div class="group relative cursor-pointer">
+                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
+                            Spot 
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </span>
+                    </div>
+                    <div class="group relative cursor-pointer">
+                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
+                            Futures
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </span>
+                    </div>
+                    <div class="group relative cursor-pointer">
+                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
+                            AIEX
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Right Column: Crypto Ticker -->
-                <div class="hero-right">
-                    <div class="crypto-ticker">
-                        <div class="ticker-header">
-                            <button class="ticker-tab active">Hot List</button>
-                            <button class="ticker-tab">Market value</button>
-                            <button class="ticker-tab">Top Gainers</button>
-                            <a href="/market.html" class="ticker-view-more">View more</a>
+            <!-- Right: Auth & Utilities -->
+            <div class="flex items-center gap-6">
+                <a href="login.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Log In</a>
+                <a href="register.html" class="bg-brand-gold hover:bg-brand-goldHover text-black text-sm font-semibold px-5 py-2 rounded-md transition-all">Sign Up</a>
+                
+                <div class="flex items-center gap-4 text-gray-400 pl-2 border-l border-white/10">
+                    <button class="hover:text-white transition-colors text-sm">Download</button>
+                    <!-- Theme Icon -->
+                    <button class="hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+                    <!-- Lang Icon -->
+                    <button class="hover:text-white transition-colors flex items-center gap-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="text-xs">English</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 pb-12">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Hero Section -->
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-24">
+                
+                <!-- Hero Left: Text Content -->
+                <div class="space-y-8">
+                    <h1 class="text-5xl lg:text-6xl font-bold leading-tight">
+                        <span class="text-brand-gold">The Most Trustworthy</span>
+                        <br>
+                        <span class="text-white">Blockchain digital asset FYNOR</span>
+                    </h1>
+                    
+                    <!-- Input Group -->
+                    <div class="flex items-center gap-3 max-w-md pt-4">
+                        <div class="relative flex-grow">
+                            <input type="text" placeholder="Email/Phone" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors text-white placeholder-gray-500">
                         </div>
-                        <div class="ticker-list" id="heroTickerList">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
+                        <a href="register.html" class="bg-brand-gold hover:bg-brand-goldHover text-black font-semibold px-8 py-3 rounded-lg transition-all whitespace-nowrap">Sign Up</a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">90+</div>
-                    <div class="stat-label">Countries Covered</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">300,000+</div>
-                    <div class="stat-label">Global Investors</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">50+</div>
-                    <div class="stat-label">Coins</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Announcements & Banners -->
-    <section class="announcement-section">
-        <div class="container">
-            <div class="announcement-grid">
-                <!-- Announcements -->
-                <div class="announcement-box">
-                    <div class="announcement-header">
-                        <i class="fas fa-bullhorn" style="color: var(--primary-color);"></i>
-                        <h3>Latest Announcements</h3>
-                    </div>
-                    <ul class="announcement-list">
-                        <li><a href="#">FYNOR Will Launch the "Trade to Win" Event</a> <span class="date">02-15</span>
-                        </li>
-                        <li><a href="#">System Maintenance Upgrade Notice</a> <span class="date">02-14</span></li>
-                        <li><a href="#">New Token Listing: SUI/USDT</a> <span class="date">02-13</span></li>
-                        <li><a href="#">Adjustment of Spot Trading Fees</a> <span class="date">02-12</span></li>
-                    </ul>
-                </div>
-
-                <!-- Banners -->
-                <div class="banner-box">
-                    <div class="banner-content">
-                        <h3>Invite Friends & Earn</h3>
-                        <p>Get up to 40% commission on every trade your friends make.</p>
-                        <button class="btn btn-primary btn-sm">Invite Now</button>
-                    </div>
-                    <img src="https://assets.binance.com/image-api/v1/introduction/20191218/1e58287d-847e-406e-827c-02685295c276.png"
-                        alt="Banner" style="opacity: 0.2; position: absolute; right: 0; bottom: 0; height: 100%;">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Market Overview -->
-    <section id="market" class="market-section">
-        <div class="container">
-            <div class="section-header">
-                <div class="tabs">
-                    <button class="tab active" data-tab="hot">Hot List</button>
-                    <button class="tab" data-tab="volume">Market value</button>
-                    <button class="tab" data-tab="gainers">Top Gainers</button>
-                </div>
-                <a href="#" class="view-more">View more <i class="fas fa-arrow-right"></i></a>
-            </div>
-
-            <div class="market-grid" id="marketGrid">
-                <!-- Market items will be loaded here dynamically -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Why Choose FYNOR</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <h3>Spot Trading</h3>
-                    <p>Provides more than 200 spot trading pairs</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-file-contract"></i>
-                    </div>
-                    <h3>Contract Trading</h3>
-                    <p>Provide loan transactions to amplify players' profits</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <h3>Register and Download</h3>
-                    <p>Register as a user to download the client</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <h3>Buy and Sell</h3>
-                    <p>Use legal currency to purchase digital assets</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Account Security</h3>
-                    <p>Personalized access mechanism, ensuring user login security</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <h3>User Center</h3>
-                    <p>Quickly access all your account setting and assets</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- App Download Section -->
-    <section class="app-download-section"
-        style="background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%); padding: 4rem 0;">
-        <div class="container">
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 4rem;">
-                <div style="flex: 1;">
-                    <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Trade on the go. Anywhere, anytime.</h2>
-                    <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem;">
-                        Stay in control with our compatible app for all your devices.
-                        Available on iOS and Android.
-                    </p>
-                    <div style="display: flex; gap: 1rem;">
-                        <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; text-align: center;">
-                            <i class="fas fa-qrcode" style="font-size: 4rem; color: var(--text-primary);"></i>
-                            <div style="margin-top: 0.5rem; font-size: 0.9rem;">Scan to Download</div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
-                            <button class="btn btn-outline btn-icon" style="min-width: 160px;">
-                                <i class="fab fa-apple" style="font-size: 1.5rem;"></i> App Store
-                            </button>
-                            <button class="btn btn-outline btn-icon" style="min-width: 160px;">
-                                <i class="fab fa-google-play" style="font-size: 1.25rem;"></i> Google Play
-                            </button>
-                            <button class="btn btn-outline btn-icon" style="min-width: 160px;">
-                                <i class="fab fa-android" style="font-size: 1.5rem;"></i> Android APK
-                            </button>
+                    <!-- App Download -->
+                    <div class="pt-6">
+                        <p class="text-xs text-gray-500 mb-2">Download App</p>
+                        <div class="w-10 h-10 bg-white p-0.5 rounded flex items-center justify-center">
+                            <!-- QR Code Placeholder -->
+                            <div class="w-full h-full bg-black flex flex-wrap content-center justify-center p-[2px]">
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div style="flex: 1; display: flex; justify-content: center;">
-                    <img src="https://assets.binance.com/image-api/v1/introduction/20191218/1e58287d-847e-406e-827c-02685295c276.png"
-                        alt="Mobile App"
-                        style="max-width: 100%; filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.2));">
+
+                <!-- Hero Right: Market Card -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+                    <!-- Card Tabs -->
+                    <div class="flex items-center gap-6 mb-6 text-sm">
+                        <button class="text-brand-gold font-medium border-b-2 border-brand-gold pb-1">Hot List</button>
+                        <button class="text-gray-400 hover:text-white transition-colors pb-1">Market value</button>
+                        <button class="text-gray-400 hover:text-white transition-colors pb-1">Top Gainers</button>
+                        <div class="ml-auto text-xs text-brand-gold cursor-pointer hover:underline">View more</div>
+                    </div>
+
+                    <!-- Table Rows -->
+                    <div class="space-y-5">
+                        <!-- Row 1 BTC -->
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#F7931A] flex items-center justify-center text-[10px] font-bold text-white">₿</div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">BTC</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">68832.32</div>
+                            <div class="text-sm font-medium text-brand-red">-2.43%</div>
+                        </div>
+
+                        <!-- Row 2 ETH -->
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#627EEA] flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 32 32"><path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm7.994-15.781L16.498 4 9 16.22l7.498 4.353 7.496-4.354zM24 17.616l-7.502 4.351L9 17.617l7.498 10.378L24 17.616z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">ETH</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">1984.40</div>
+                            <div class="text-sm font-medium text-brand-red">-4.26%</div>
+                        </div>
+
+                         <!-- Row 3 LTC -->
+                         <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#345D9D] flex items-center justify-center text-[10px] font-bold text-white">Ł</div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">LTC</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">54.61</div>
+                            <div class="text-sm font-medium text-brand-red">-2.74%</div>
+                        </div>
+
+                        <!-- Row 4 BCH -->
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#8DC351] flex items-center justify-center text-[10px] font-bold text-white">B</div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">BCH</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">557.6</div>
+                            <div class="text-sm font-medium text-brand-red">-0.82%</div>
+                        </div>
+
+                        <!-- Row 5 TRX -->
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#FF0013] flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2.5 12l19-9-9 19-2-7-8-3z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">TRX</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">0.2801</div>
+                            <div class="text-sm font-medium text-brand-red">-0.46%</div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- FAQ Section -->
-    <section class="faq-section" style="padding: 6rem 0; background: var(--bg-dark);">
-        <div class="container" style="max-width: 800px;">
-            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Frequently Asked Questions</h2>
-            <div class="faq-accordion">
-                <div class="faq-item">
-                    <button class="faq-question">
-                        How to buy digital currency?
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>You can buy digital currency through our "Buy and Sell" feature using various payment methods
-                            including credit cards and bank transfers.</p>
-                    </div>
+            <!-- Stats Section -->
+            <div class="grid grid-cols-3 gap-8 mb-24 max-w-4xl">
+                <div>
+                    <div class="text-3xl font-bold text-brand-gold mb-1">90+</div>
+                    <div class="text-xs text-gray-400">Countries Covered</div>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question">
-                        How to complete personal identity authentication?
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Go to your User Center and select "Identity Verification". Follow the prompts to upload your
-                            ID document and complete facial recognition.</p>
-                    </div>
+                <div>
+                    <div class="text-3xl font-bold text-brand-gold mb-1">300,000+</div>
+                    <div class="text-xs text-gray-400">Global Investors</div>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question">
-                        How to reset password?
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Click "Forgot Password" on the login page. Enter your registered email or phone number to
-                            receive a verification code.</p>
-                    </div>
+                <div>
+                    <div class="text-3xl font-bold text-brand-gold mb-1">50+</div>
+                    <div class="text-xs text-gray-400">Coins</div>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question">
-                        How to download FYNOR?
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>You can download the FYNOR app for iOS and Android directly from our homepage or the "App
-                            Download" section.</p>
+            </div>
+
+            <!-- Announcements Section -->
+            <div class="mb-24">
+                <h2 class="text-2xl font-bold text-brand-gold mb-8">Announcements</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Left: List -->
+                    <div class="bg-brand-black border border-brand-border rounded-xl p-6 relative">
+                        <div class="space-y-6">
+                            <!-- Item 1 -->
+                            <div class="group cursor-pointer">
+                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
+                                    <span class="text-brand-red">📢</span>
+                                    <span class="line-clamp-1">Official Announcement | Fynor Unboxing Challenge Blind Box Challenge Officially Launched</span>
+                                </div>
+                                <div class="text-xs text-gray-500">2026-02-15 21:34</div>
+                            </div>
+                             <!-- Item 2 -->
+                             <div class="group cursor-pointer">
+                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
+                                    <span class="line-clamp-1">Fynor Invite Friends to Recharge and Earn Rebates Announcement (Enjoy 5% Rebate)</span>
+                                </div>
+                                <div class="text-xs text-gray-500">2026-01-24 18:59</div>
+                            </div>
+                             <!-- Item 3 -->
+                             <div class="group cursor-pointer">
+                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
+                                    <span class="line-clamp-1">Fynor Direct Referral Member Recharge Lottery Event Announcement</span>
+                                </div>
+                                <div class="text-xs text-gray-500">2026-01-21 19:11</div>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-right">
+                            <a href="#" class="text-xs text-brand-gold hover:underline">View more</a>
+                        </div>
+                    </div>
+
+                    <!-- Right: Banners -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Banner 1 -->
+                        <div class="banner-1 rounded-xl p-4 relative overflow-hidden text-black group cursor-pointer transition-transform hover:scale-[1.02]">
+                            <div class="relative z-10">
+                                <div class="text-sm font-bold text-orange-400 mb-1">The most reliable</div>
+                                <div class="text-xs text-gray-600 mb-4 leading-tight">digital currency exchange</div>
+                                <button class="text-[10px] bg-yellow-600/20 text-yellow-700 px-2 py-1 rounded font-medium border border-yellow-600/30">application submission</button>
+                            </div>
+                            <!-- Illustration Placeholder -->
+                            <div class="absolute bottom-0 right-0 w-24 h-24 transform translate-x-4 translate-y-4">
+                                <svg class="w-full h-full text-yellow-400 opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                         <!-- Banner 2 -->
+                         <div class="banner-2 rounded-xl p-4 relative overflow-hidden text-black group cursor-pointer transition-transform hover:scale-[1.02]">
+                            <div class="relative z-10">
+                                <div class="text-sm font-bold text-orange-400 mb-1">The Invitation<br>Leaderboard</div>
+                                <div class="text-[10px] text-gray-400 mt-1 mb-2">Share the 11,000 USDT Reward!</div>
+                            </div>
+                            <!-- Illustration Placeholder -->
+                             <div class="absolute bottom-2 right-2 w-16 h-16 bg-yellow-400 rounded-full opacity-20 blur-xl"></div>
+                            <div class="absolute bottom-1 right-1 w-16 h-16">
+                                <div class="w-12 h-12 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-full flex items-center justify-center shadow-lg transform rotate-12 border-2 border-white">
+                                    <span class="text-white font-bold text-lg">₿</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <div id="footer-container"></div>
+            <!-- Bottom CTA Section -->
+            <div class="flex flex-col items-center justify-center pt-10 relative overflow-hidden">
+                <!-- Phone Mockup Top visible -->
+                <div class="relative w-full max-w-sm h-64 bg-transparent mx-auto flex justify-center items-end">
+                    <div class="w-48 h-full bg-white rounded-t-3xl border-[8px] border-b-0 border-gray-800 shadow-2xl relative overflow-hidden">
+                         <!-- Screen Content -->
+                         <div class="w-full h-full bg-white p-4 flex flex-col items-center pt-8">
+                             <div class="w-12 h-12 bg-gray-100 rounded-full mb-2"></div>
+                             <div class="w-24 h-2 bg-gray-100 rounded mb-4"></div>
+                             <div class="w-full h-20 bg-gray-50 rounded-lg border border-gray-100 mb-2"></div>
+                             <button class="w-full bg-brand-gold text-white text-[8px] py-1.5 rounded mt-auto mb-2">Log In</button>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8 z-10">
+                    <h2 class="text-3xl font-bold text-brand-gold mb-2">Trade anytime, anywhere!</h2>
+                    <p class="text-gray-400 text-sm">Download the app, and all transactions are at your fingertips</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Chat Widget Bubble -->
+    <div class="fixed bottom-8 right-8 z-50">
+        <button class="w-12 h-12 bg-brand-gold hover:bg-brand-goldHover text-black rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+        </button>
+    </div>
 
     <script src="js/components.js"></script>
     <script src="app.js"></script>
-</body>
 
+</body>
 </html>

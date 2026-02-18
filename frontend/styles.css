@@ -124,19 +124,29 @@ body {
 }
 
 .dropdown-content {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
     position: absolute;
     background: var(--bg-card);
     min-width: 200px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
-    z-index: 1;
+    z-index: 100;
     margin-top: 0.5rem;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition-delay: 0.2s; /* Stability delay */
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition-delay: 0s;
 }
+
 
 .dropdown-content a {
     display: block;
@@ -1321,17 +1331,26 @@ body {
     /* Mega Menu */
     .mega-menu {
         min-width: 400px;
-        display: none;
-        /* Hidden by default */
+        visibility: hidden;
+        opacity: 0;
+        display: grid; /* Keep layout but hide */
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
         padding: 1.5rem;
+        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        transform: translateY(10px);
+        pointer-events: none;
+        transition-delay: 0.2s;
     }
 
     .dropdown:hover .mega-menu {
-        display: grid;
-        /* Show as grid on hover */
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        transition-delay: 0s;
     }
+
 
     .dropdown-column h3 {
         font-size: 0.9rem;
