@@ -1,7 +1,11 @@
 #!/bin/bash
 
-# FYNOR Clone - Automated Setup Script
-# This script automates the setup process
+# FYNOR Clone - Development Setup Script
+# This script sets up the local development environment
+#
+# Note: For Railway/production deployments, the database schema is
+# automatically initialized on first startup by the backend server.
+# This script is for local development only.
 
 echo "🚀 FYNOR Clone - Setup Script"
 echo "================================"
@@ -127,9 +131,9 @@ echo -e "${GREEN}✅ Setup Complete!${NC}"
 echo ""
 echo "Next steps:"
 echo "1. Update backend/.env with your Google OAuth credentials"
-echo "2. Start the backend: cd backend && npm start"
-echo "3. In a new terminal, start the frontend: cd frontend && python3 -m http.server 8080"
-echo "4. Open http://localhost:8080 in your browser"
+echo "2. Start the application: npm start"
+echo "3. Open http://localhost:3000 in your browser"
 echo ""
+echo "The backend automatically serves the frontend on the same port."
 echo "For detailed instructions, see README.md"
 echo "================================"

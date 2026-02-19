@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const WebSocket = require('ws');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +29,41 @@ pool.connect((err, client, release) => {
   }
 });
 
+// Database schema initialization function
+async function initializeDatabase() {
+  try {
+    // Check if tables exist
+    const result = await pool.query(
+      `SELECT EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_name = 'users'
+      )`
+    );
+
+    if (result.rows[0].exists) {
+      console.log('✅ Database schema already initialized');
+      return;
+    }
+
+    console.log('📊 Initializing database schema...');
+    const schemaPath = path.join(__dirname, 'schema.sql');
+    const schema = fs.readFileSync(schemaPath, 'utf8');
+    
+    // Execute schema line by line to handle multiple statements
+    const statements = schema.split(';').filter(stmt => stmt.trim());
+    for (const statement of statements) {
+      if (statement.trim()) {
+        await pool.query(statement);
+      }
+    }
+    
+    console.log('✅ Database schema initialized successfully');
+  } catch (error) {
+    console.error('❌ Error initializing database schema:', error.message);
+    console.log('⚠️  Continuing startup - you may need to run: psql -d fynor_clone -f backend/schema.sql');
+  }
+}
+
 // Middleware
 app.use(cors({
   origin: process.env.FRONTEND_URL,
@@ -43,48 +80,52 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Passport Google OAuth Strategy
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL
-},
-  async (accessToken, refreshToken, profile, done) => {
-    try {
-      // Check if user exists
-      let result = await pool.query(
-        'SELECT * FROM users WHERE google_id = $1',
-        [profile.id]
-      );
-
-      if (result.rows.length === 0) {
-        // Create new user
-        result = await pool.query(
-          `INSERT INTO users (email, google_id, full_name, avatar_url) 
-           VALUES ($1, $2, $3, $4) RETURNING *`,
-          [
-            profile.emails[0].value,
-            profile.id,
-            profile.displayName,
-            profile.photos[0]?.value
-          ]
+// Passport Google OAuth Strategy (register only if env vars provided)
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_CALLBACK_URL) {
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
+  },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // Check if user exists
+        let result = await pool.query(
+          'SELECT * FROM users WHERE google_id = $1',
+          [profile.id]
         );
 
-        // Create initial wallets for new user
-        const userId = result.rows[0].id;
-        await pool.query(
-          `INSERT INTO wallets (user_id, currency, balance) 
-           VALUES ($1, 'BTC', 0), ($1, 'ETH', 0), ($1, 'USDT', 1000)`,
-          [userId]
-        );
+        if (result.rows.length === 0) {
+          // Create new user
+          result = await pool.query(
+            `INSERT INTO users (email, google_id, full_name, avatar_url) 
+             VALUES ($1, $2, $3, $4) RETURNING *`,
+            [
+              profile.emails[0].value,
+              profile.id,
+              profile.displayName,
+              profile.photos[0]?.value
+            ]
+          );
+
+          // Create initial wallets for new user
+          const userId = result.rows[0].id;
+          await pool.query(
+            `INSERT INTO wallets (user_id, currency, balance) 
+             VALUES ($1, 'BTC', 0), ($1, 'ETH', 0), ($1, 'USDT', 1000)`,
+            [userId]
+          );
+        }
+
+        return done(null, result.rows[0]);
+      } catch (error) {
+        return done(error, null);
       }
-
-      return done(null, result.rows[0]);
-    } catch (error) {
-      return done(error, null);
     }
-  }
-));
+  ));
+} else {
+  console.log('⚠️ Google OAuth not fully configured; skipping GoogleStrategy registration');
+}
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -510,40 +551,54 @@ app.get('/health', (req, res) => {
 });
 
 // Start server
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+async function startServer() {
+  try {
+    await initializeDatabase();
+    const server = app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+    return server;
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+}
 
-// WebSocket server for real-time updates
-const wss = new WebSocket.Server({ server });
+startServer().then((server) => {
+  // WebSocket server for real-time updates
+  const wss = new WebSocket.Server({ server });
 
-wss.on('connection', (ws) => {
-  console.log('📡 New WebSocket connection');
+  wss.on('connection', (ws) => {
+    console.log('📡 New WebSocket connection');
 
-  ws.on('message', (message) => {
-    console.log('Received:', message.toString());
+    ws.on('message', (message) => {
+      console.log('Received:', message.toString());
+    });
+
+    // Send market updates every 2 seconds
+    const interval = setInterval(async () => {
+      try {
+        const result = await pool.query('SELECT * FROM trading_pairs WHERE is_active = true');
+        ws.send(JSON.stringify({
+          type: 'MARKET_UPDATE',
+          data: result.rows
+        }));
+      } catch (error) {
+        console.error('WebSocket error:', error);
+      }
+    }, 2000);
+
+    ws.on('close', () => {
+      clearInterval(interval);
+      console.log('📡 WebSocket connection closed');
+    });
   });
 
-  // Send market updates every 2 seconds
-  const interval = setInterval(async () => {
-    try {
-      const result = await pool.query('SELECT * FROM trading_pairs WHERE is_active = true');
-      ws.send(JSON.stringify({
-        type: 'MARKET_UPDATE',
-        data: result.rows
-      }));
-    } catch (error) {
-      console.error('WebSocket error:', error);
-    }
-  }, 2000);
-
-  ws.on('close', () => {
-    clearInterval(interval);
-    console.log('📡 WebSocket connection closed');
-  });
+}).catch((err) => {
+  console.error('❌ Error during server startup:', err);
+  process.exit(1);
 });
 
-const path = require('path');
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Handle SPA routing - redirect all other requests to index.html

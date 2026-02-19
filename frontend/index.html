@@ -5,391 +5,456 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FYNOR - The Most Trustworthy Blockchain Digital Asset</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            gold: '#dea638', // Main brand gold
-                            goldHover: '#c49230',
-                            black: '#000000',
-                            dark: '#0a0a0a', // Slightly lighter black for contrast
-                            card: '#121212', // Card background
-                            border: '#27272a', // Zinc 800
-                            green: '#10b981', // Crypto success
-                            red: '#f43f5e',   // Crypto danger
-                            text: '#9ca3af',  // Secondary text
-                        }
-                    },
-                    backgroundImage: {
-                        'gold-gradient': 'linear-gradient(135deg, #dea638 0%, #f59e0b 100%)',
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom scrollbar for table if needed */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #111;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 3px;
-        }
-        
-        .glass-effect {
-            background: rgba(18, 18, 18, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* Announcement banner gradients */
-        .banner-1 {
-            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,240,0.9) 100%);
-        }
-        .banner-2 {
-            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,240,0.9) 100%);
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: white; }
+        .gradient-text { background: linear-gradient(90deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-gold { background: linear-gradient(180deg, #EAB348 0%, #D49B35 100%); color: #000; font-weight: 600; }
+        .btn-gold:hover { background: linear-gradient(180deg, #F0C05E 0%, #E0A845 100%); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        .text-gold { color: #EAB348; }
+        .bg-card { background-color: #121212; }
+        .border-dark { border-color: #262626; }
+        .feature-card:hover { background-color: #1a1a1a; border-color: #EAB348; transition: all 0.3s; }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .3s ease-in-out; }
+        @keyframes sweep { 0% {opacity: 0; transform: translateY(-10px)} 100% {opacity: 1; transform: translateY(0)} }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); }
+        .modal-content { background-color: #1a1a1a; margin: 10% auto; padding: 30px; border: 1px solid #333; border-radius: 12px; width: 90%; max-width: 400px; }
+        .modal-close { color: #ccc; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .modal-close:hover { color: #EAB348; }
+        .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
+        .alert.hidden { display: none !important; }
+        .alert-success { background-color: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid #10b981; }
+        .alert-error { background-color: rgba(244, 63, 94, 0.1); color: #f43f5e; border: 1px solid #f43f5e; }
+        .alert-info { background-color: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid #3b82f6; }
     </style>
 </head>
-<body class="bg-brand-black text-white font-sans antialiased selection:bg-brand-gold selection:text-black min-h-screen flex flex-col">
+<body class="overflow-x-hidden">
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 bg-brand-black/90 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Left: Logo & Links -->
-            <div class="flex items-center gap-12">
-                <!-- Logo -->
-                <a href="#" class="flex items-center gap-2 group">
-                    <div class="w-8 h-8 relative">
-                         <!-- Abstract Wing/F Logo -->
-                        <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-brand-gold">
-                            <path d="M4 12C4 12 5.5 8 10 6C14.5 4 19 5 19 5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M5 16C5 16 7 13 11 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 6C12 6 12 3 15 3C18 3 20 4 20 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-70"/>
-                        </svg>
-                    </div>
-                    <span class="text-xl font-bold tracking-wide">FYNOR</span>
-                </a>
-
-                <!-- Desktop Nav Links -->
-                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
-                    <a href="market.html" class="hover:text-brand-gold transition-colors">Market</a>
-                    <!-- Spot Dropdown -->
-                    <div class="group relative cursor-pointer">
-                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
-                            Spot 
-                            <svg class="w-3 h-3 fill-none stroke-current transition-transform group-hover:stroke-brand-gold" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </span>
-                        <!-- Dropdown Menu -->
-                        <div class="absolute left-0 mt-0 w-48 bg-brand-card border border-brand-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-2">
-                            <a href="spot-classic.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors">
-                                <div class="font-medium">Classic</div>
-                                <div class="text-xs text-gray-500">Standard trading interface</div>
-                            </a>
-                            <a href="spot-advanced.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors">
-                                <div class="font-medium">Advanced</div>
-                                <div class="text-xs text-gray-500">Professional trading tools</div>
-                            </a>
-                            <a href="spot-margin.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors border-t border-brand-border">
-                                <div class="font-medium">Margin</div>
-                                <div class="text-xs text-gray-500">Leverage trading</div>
-                            </a>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#080808]/90 backdrop-blur-md border-b border-[#222]">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-12">
+                    <a href="index.html" class="flex items-center gap-2">
+                        <div class="w-8 h-8 text-[#EAB348]">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M4 4h10a2 2 0 0 1 2 2v2a1 1 0 0 1-2 0V6H6v12h4a1 1 0 0 1 0 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
+                                <path d="M14 10h6a2 2 0 0 1 2 2v2a1 1 0 0 1-2 0v-2h-4v4a1 1 0 0 1-2 0v-6z"/>
+                                <path d="M6 4L14 12" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold tracking-wide">FYNOR</span>
+                    </a>
+                    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                        <a href="market.html" class="hover:text-[#EAB348] transition-colors">Market</a>
+                        <div class="relative group cursor-pointer h-16 flex items-center">
+                            <span class="hover:text-[#EAB348] flex items-center gap-1 transition-colors">Spot <i class="fa-solid fa-caret-down text-xs"></i></span>
+                        </div>
+                        <div class="relative group cursor-pointer h-16 flex items-center">
+                            <span class="hover:text-[#EAB348] flex items-center gap-1 transition-colors">Futures <i class="fa-solid fa-caret-down text-xs"></i></span>
+                        </div>
+                        <div class="relative group cursor-pointer h-16 flex items-center">
+                            <span class="hover:text-[#EAB348] flex items-center gap-1 transition-colors">AIEX <i class="fa-solid fa-caret-down text-xs"></i></span>
                         </div>
                     </div>
-                    <div class="group relative cursor-pointer">
-                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
-                            Futures
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </span>
-                    </div>
-                    <div class="group relative cursor-pointer">
-                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
-                            AIEX
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </span>
-                    </div>
                 </div>
-            </div>
 
-            <!-- Right: Auth & Utilities -->
-            <div class="flex items-center gap-6">
-                <a href="login.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Log In</a>
-                <a href="register.html" class="bg-brand-gold hover:bg-brand-goldHover text-black text-sm font-semibold px-5 py-2 rounded-md transition-all">Sign Up</a>
-                
-                <div class="flex items-center gap-4 text-gray-400 pl-2 border-l border-white/10">
-                    <button class="hover:text-white transition-colors text-sm">Download</button>
-                    <!-- Theme Icon -->
-                    <button class="hover:text-white transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                    </button>
-                    <!-- Lang Icon -->
-                    <button class="hover:text-white transition-colors flex items-center gap-1">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span class="text-xs">English</span>
-                    </button>
+                <div class="flex items-center gap-4 text-sm font-medium">
+                    <div id="authButtons" class="flex items-center gap-4">
+                        <a href="login.html" class="text-gray-300 hover:text-white hidden sm:block">Log In</a>
+                        <a href="register.html" class="btn-gold px-5 py-2 rounded-full hover:opacity-90 transition-opacity">Sign Up</a>
+                    </div>
+                    <div id="userMenu" class="hidden flex items-center gap-4">
+                        <div class="relative group cursor-pointer">
+                            <div class="flex items-center gap-2 hover:text-[#EAB348] transition-colors cursor-pointer" onclick="toggleUserDropdown()">
+                                <img id="userAvatar" src="" alt="Avatar" class="w-6 h-6 rounded-full">
+                                <span id="userName" class="text-sm font-medium">Account</span>
+                            </div>
+                            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 bg-[#1a1a1a] border border-[#333] rounded-lg shadow-lg py-2 z-50">
+                                <a href="wallet.html" class="block px-4 py-2 text-gray-300 hover:text-[#EAB348] hover:bg-[#111] transition-colors">Wallet</a>
+                                <a href="orders.html" class="block px-4 py-2 text-gray-300 hover:text-[#EAB348] hover:bg-[#111] transition-colors">Orders</a>
+                                <hr class="border-[#333] my-2">
+                                <button onclick="logout()" class="block w-full text-left px-4 py-2 text-gray-300 hover:text-red-500 hover:bg-[#111] transition-colors">Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="text-gray-300 hover:text-white hidden sm:flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i><span class="text-xs">Download</span>
+                    </a>
+                    <div class="flex items-center gap-2 text-gray-300 cursor-pointer hover:text-white">
+                        <i class="fa-regular fa-sun"></i><span class="hidden sm:inline text-xs">English</span>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
+    <!-- Modals removed: login/register modals converted to standalone pages -->
 
-    <!-- Main Content -->
-    <main class="flex-grow pt-24 pb-12">
-        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <!-- Hero Section -->
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-24">
-                
-                <!-- Hero Left: Text Content -->
-                <div class="space-y-8">
-                    <h1 class="text-5xl lg:text-6xl font-bold leading-tight">
-                        <span class="text-brand-gold">The Most Trustworthy</span>
-                        <br>
-                        <span class="text-white">Blockchain digital asset FYNOR</span>
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 bg-black relative">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="market" class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="w-full lg:w-1/2 space-y-8">
+                    <h1 class="text-5xl lg:text-[56px] leading-tight font-bold">
+                        <span class="text-[#EAB348]">The Most Trustworthy</span> <br>
+                        Blockchain digital asset <br>
+                        FYNOR
                     </h1>
-                    
-                    <!-- Input Group -->
-                    <div class="flex items-center gap-3 max-w-md pt-4">
-                        <div class="relative flex-grow">
-                            <input type="text" placeholder="Email/Phone" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors text-white placeholder-gray-500">
-                        </div>
-                        <a href="register.html" class="bg-brand-gold hover:bg-brand-goldHover text-black font-semibold px-8 py-3 rounded-lg transition-all whitespace-nowrap">Sign Up</a>
+                    <div class="flex flex-col sm:flex-row gap-4 max-w-lg">
+                        <input type="text" placeholder="Email/Phone" class="bg-transparent border border-[#333] rounded-lg px-4 py-3 w-full focus:outline-none focus:border-[#EAB348] text-white transition-colors">
+                        <a href="register.html" class="btn-gold px-8 py-3 rounded-lg whitespace-nowrap font-semibold">Sign Up</a>
                     </div>
-
-                    <!-- App Download -->
-                    <div class="pt-6">
-                        <p class="text-xs text-gray-500 mb-2">Download App</p>
-                        <div class="w-10 h-10 bg-white p-0.5 rounded flex items-center justify-center">
-                            <!-- QR Code Placeholder -->
-                            <div class="w-full h-full bg-black flex flex-wrap content-center justify-center p-[2px]">
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
-                            </div>
+                    <div class="flex items-center gap-4 pt-4">
+                        <div class="w-12 h-12 border border-[#333] rounded-lg flex items-center justify-center text-white hover:border-[#EAB348] cursor-pointer bg-[#111] transition-colors">
+                            <i class="fa-solid fa-qrcode text-xl"></i>
                         </div>
+                        <span class="text-gray-400 text-sm">Download App</span>
                     </div>
                 </div>
 
-                <!-- Hero Right: Market Card -->
-                <div class="bg-brand-card border border-brand-border rounded-2xl p-6 shadow-2xl relative overflow-hidden">
-                    <!-- Card Tabs -->
-                    <div class="flex items-center gap-6 mb-6 text-sm">
-                        <button class="text-brand-gold font-medium border-b-2 border-brand-gold pb-1">Hot List</button>
-                        <button class="text-gray-400 hover:text-white transition-colors pb-1">Market value</button>
-                        <button class="text-gray-400 hover:text-white transition-colors pb-1">Top Gainers</button>
-                        <div class="ml-auto text-xs text-brand-gold cursor-pointer hover:underline">View more</div>
-                    </div>
-
-                    <!-- Table Rows -->
-                    <div class="space-y-5">
-                        <!-- Row 1 BTC -->
-                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
-                            <div class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-[#F7931A] flex items-center justify-center text-[10px] font-bold text-white">₿</div>
-                                <div>
-                                    <span class="text-white font-semibold text-sm">BTC</span>
-                                    <span class="text-gray-500 text-xs">/USDT</span>
-                                </div>
+                <div class="w-full lg:w-1/2">
+                    <div class="bg-[#111] border border-[#222] rounded-2xl p-6 shadow-2xl">
+                        <div class="flex justify-between items-center mb-6 text-sm font-medium text-gray-400">
+                            <div class="flex gap-6">
+                                <span class="text-[#EAB348] cursor-pointer">Hot List</span>
+                                <span class="hover:text-white cursor-pointer">Market value</span>
+                                <span class="hover:text-white cursor-pointer">Top Gainers</span>
                             </div>
-                            <div class="text-sm font-medium">68832.32</div>
-                            <div class="text-sm font-medium text-brand-red">-2.43%</div>
+                            <a href="market.html" class="text-[#EAB348] hover:underline text-xs">View more</a>
                         </div>
-
-                        <!-- Row 2 ETH -->
-                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
-                            <div class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-[#627EEA] flex items-center justify-center">
-                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 32 32"><path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm7.994-15.781L16.498 4 9 16.22l7.498 4.353 7.496-4.354zM24 17.616l-7.502 4.351L9 17.617l7.498 10.378L24 17.616z"/></svg>
+                        <div id="heroTickerList" class="space-y-4">
+                            <div class="flex items-center justify-between py-2 border-b border-[#222] hover:bg-[#1a1a1a] px-2 rounded transition-colors cursor-pointer">
+                                <div class="flex items-center gap-3 w-1/3">
+                                    <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xs">₿</div>
+                                    <span class="font-bold">BTC</span>
+                                    <span class="text-xs text-gray-500">/USDT</span>
                                 </div>
-                                <div>
-                                    <span class="text-white font-semibold text-sm">ETH</span>
-                                    <span class="text-gray-500 text-xs">/USDT</span>
-                                </div>
-                            </div>
-                            <div class="text-sm font-medium">1984.40</div>
-                            <div class="text-sm font-medium text-brand-red">-4.26%</div>
-                        </div>
-
-                         <!-- Row 3 LTC -->
-                         <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
-                            <div class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-[#345D9D] flex items-center justify-center text-[10px] font-bold text-white">Ł</div>
-                                <div>
-                                    <span class="text-white font-semibold text-sm">LTC</span>
-                                    <span class="text-gray-500 text-xs">/USDT</span>
-                                </div>
-                            </div>
-                            <div class="text-sm font-medium">54.61</div>
-                            <div class="text-sm font-medium text-brand-red">-2.74%</div>
-                        </div>
-
-                        <!-- Row 4 BCH -->
-                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
-                            <div class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-[#8DC351] flex items-center justify-center text-[10px] font-bold text-white">B</div>
-                                <div>
-                                    <span class="text-white font-semibold text-sm">BCH</span>
-                                    <span class="text-gray-500 text-xs">/USDT</span>
-                                </div>
-                            </div>
-                            <div class="text-sm font-medium">557.6</div>
-                            <div class="text-sm font-medium text-brand-red">-0.82%</div>
-                        </div>
-
-                        <!-- Row 5 TRX -->
-                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
-                            <div class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-[#FF0013] flex items-center justify-center">
-                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2.5 12l19-9-9 19-2-7-8-3z"/></svg>
-                                </div>
-                                <div>
-                                    <span class="text-white font-semibold text-sm">TRX</span>
-                                    <span class="text-gray-500 text-xs">/USDT</span>
-                                </div>
-                            </div>
-                            <div class="text-sm font-medium">0.2801</div>
-                            <div class="text-sm font-medium text-brand-red">-0.46%</div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stats Section -->
-            <div class="grid grid-cols-3 gap-8 mb-24 max-w-4xl">
-                <div>
-                    <div class="text-3xl font-bold text-brand-gold mb-1">90+</div>
-                    <div class="text-xs text-gray-400">Countries Covered</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-brand-gold mb-1">300,000+</div>
-                    <div class="text-xs text-gray-400">Global Investors</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-brand-gold mb-1">50+</div>
-                    <div class="text-xs text-gray-400">Coins</div>
-                </div>
-            </div>
-
-            <!-- Announcements Section -->
-            <div class="mb-24">
-                <h2 class="text-2xl font-bold text-brand-gold mb-8">Announcements</h2>
-                
-                <div class="grid lg:grid-cols-2 gap-8">
-                    <!-- Left: List -->
-                    <div class="bg-brand-black border border-brand-border rounded-xl p-6 relative">
-                        <div class="space-y-6">
-                            <!-- Item 1 -->
-                            <div class="group cursor-pointer">
-                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
-                                    <span class="text-brand-red">📢</span>
-                                    <span class="line-clamp-1">Official Announcement | Fynor Unboxing Challenge Blind Box Challenge Officially Launched</span>
-                                </div>
-                                <div class="text-xs text-gray-500">2026-02-15 21:34</div>
-                            </div>
-                             <!-- Item 2 -->
-                             <div class="group cursor-pointer">
-                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
-                                    <span class="line-clamp-1">Fynor Invite Friends to Recharge and Earn Rebates Announcement (Enjoy 5% Rebate)</span>
-                                </div>
-                                <div class="text-xs text-gray-500">2026-01-24 18:59</div>
-                            </div>
-                             <!-- Item 3 -->
-                             <div class="group cursor-pointer">
-                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
-                                    <span class="line-clamp-1">Fynor Direct Referral Member Recharge Lottery Event Announcement</span>
-                                </div>
-                                <div class="text-xs text-gray-500">2026-01-21 19:11</div>
-                            </div>
-                        </div>
-                        <div class="mt-8 text-right">
-                            <a href="#" class="text-xs text-brand-gold hover:underline">View more</a>
-                        </div>
-                    </div>
-
-                    <!-- Right: Banners -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <!-- Banner 1 -->
-                        <div class="banner-1 rounded-xl p-4 relative overflow-hidden text-black group cursor-pointer transition-transform hover:scale-[1.02]">
-                            <div class="relative z-10">
-                                <div class="text-sm font-bold text-orange-400 mb-1">The most reliable</div>
-                                <div class="text-xs text-gray-600 mb-4 leading-tight">digital currency exchange</div>
-                                <button class="text-[10px] bg-yellow-600/20 text-yellow-700 px-2 py-1 rounded font-medium border border-yellow-600/30">application submission</button>
-                            </div>
-                            <!-- Illustration Placeholder -->
-                            <div class="absolute bottom-0 right-0 w-24 h-24 transform translate-x-4 translate-y-4">
-                                <svg class="w-full h-full text-yellow-400 opacity-80" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/>
-                                </svg>
-                            </div>
-                        </div>
-
-                         <!-- Banner 2 -->
-                         <div class="banner-2 rounded-xl p-4 relative overflow-hidden text-black group cursor-pointer transition-transform hover:scale-[1.02]">
-                            <div class="relative z-10">
-                                <div class="text-sm font-bold text-orange-400 mb-1">The Invitation<br>Leaderboard</div>
-                                <div class="text-[10px] text-gray-400 mt-1 mb-2">Share the 11,000 USDT Reward!</div>
-                            </div>
-                            <!-- Illustration Placeholder -->
-                             <div class="absolute bottom-2 right-2 w-16 h-16 bg-yellow-400 rounded-full opacity-20 blur-xl"></div>
-                            <div class="absolute bottom-1 right-1 w-16 h-16">
-                                <div class="w-12 h-12 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-full flex items-center justify-center shadow-lg transform rotate-12 border-2 border-white">
-                                    <span class="text-white font-bold text-lg">₿</span>
-                                </div>
+                                <div class="text-right w-1/3 font-medium">-</div>
+                                <div class="text-right w-1/3 text-gray-500 font-medium">-</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Bottom CTA Section -->
-            <div class="flex flex-col items-center justify-center pt-10 relative overflow-hidden">
-                <!-- Phone Mockup Top visible -->
-                <div class="relative w-full max-w-sm h-64 bg-transparent mx-auto flex justify-center items-end">
-                    <div class="w-48 h-full bg-white rounded-t-3xl border-[8px] border-b-0 border-gray-800 shadow-2xl relative overflow-hidden">
-                         <!-- Screen Content -->
-                         <div class="w-full h-full bg-white p-4 flex flex-col items-center pt-8">
-                             <div class="w-12 h-12 bg-gray-100 rounded-full mb-2"></div>
-                             <div class="w-24 h-2 bg-gray-100 rounded mb-4"></div>
-                             <div class="w-full h-20 bg-gray-50 rounded-lg border border-gray-100 mb-2"></div>
-                             <button class="w-full bg-brand-gold text-white text-[8px] py-1.5 rounded mt-auto mb-2">Log In</button>
-                         </div>
-                    </div>
-                </div>
-
-                <div class="text-center mt-8 z-10">
-                    <h2 class="text-3xl font-bold text-brand-gold mb-2">Trade anytime, anywhere!</h2>
-                    <p class="text-gray-400 text-sm">Download the app, and all transactions are at your fingertips</p>
-                </div>
-            </div>
-
         </div>
-    </main>
+    </section>
 
-    <!-- Chat Widget Bubble -->
+    <!-- Stats Section -->
+    <section class="py-12 bg-black">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <div>
+                    <h3 class="text-4xl font-bold text-[#EAB348] mb-1">90+</h3>
+                    <p class="text-gray-400 text-sm">Countries Covered</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-[#EAB348] mb-1">300,000+</h3>
+                    <p class="text-gray-400 text-sm">Global Investors</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-bold text-[#EAB348] mb-1">50+</h3>
+                    <p class="text-gray-400 text-sm">Coins</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section class="py-16 bg-black">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-[#EAB348] mb-10">Announcements</h2>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="w-full lg:w-1/3 bg-[#111] rounded-xl border border-[#222] p-6 h-[260px] overflow-hidden">
+                    <div class="space-y-6">
+                        <div class="group cursor-pointer">
+                            <p class="text-sm font-medium text-gray-200 group-hover:text-[#EAB348] line-clamp-1">Fynor Invite Friends to Recharge and Earn Rebates Announcement (Enjoy 5% Rebate)</p>
+                            <span class="text-xs text-gray-500 mt-1 block">2026-01-24 18:59</span>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <p class="text-sm font-medium text-gray-200 group-hover:text-[#EAB348] line-clamp-1">Fynor Direct Referral Member Recharge Lottery Event Announcement</p>
+                            <span class="text-xs text-gray-500 mt-1 block">2026-01-21 19:11</span>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <p class="text-sm font-medium text-gray-200 group-hover:text-[#EAB348] line-clamp-1">Fynor Invite Friends and Earn Rebates Promotion</p>
+                            <span class="text-xs text-gray-500 mt-1 block">2026-01-16 18:32</span>
+                        </div>
+                        <a href="#" class="text-[#EAB348] text-xs inline-block mt-2 hover:underline">View more</a>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-white to-gray-100 rounded-xl p-6 relative overflow-hidden flex flex-col justify-center h-[260px] cursor-pointer hover:shadow-lg transition-shadow">
+                        <div class="relative z-10">
+                            <h3 class="text-[#EAB348] text-xl font-bold mb-1">The most reliable</h3>
+                            <p class="text-gray-500 text-xs mb-4">digital currency exchange</p>
+                            <button class="bg-[#D4A03D] text-white text-xs px-4 py-2 rounded-full font-bold uppercase hover:bg-[#c49230] transition-colors">application submission</button>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-white to-gray-100 rounded-xl p-6 relative overflow-hidden flex flex-col justify-center h-[260px] cursor-pointer hover:shadow-lg transition-shadow">
+                        <div class="relative z-10">
+                            <h3 class="text-[#D4A03D] text-xl font-bold mb-1">The Invitation<br>Leaderboard</h3>
+                            <p class="text-gray-500 text-xs mt-2">Share the 11,000 USDT Reward!</p>
+                        </div>
+                        <div class="absolute right-2 bottom-2">
+                            <div class="w-20 h-20 bg-yellow-200 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-trophy text-yellow-600 text-4xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Section -->
+    <section class="py-24 bg-black">
+        <div class="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                <div class="relative w-64 h-[500px] bg-[#1a1a1a] rounded-[40px] border-8 border-[#333] shadow-2xl flex flex-col overflow-hidden">
+                    <div class="bg-white flex-1 relative p-4 overflow-hidden">
+                        <div class="text-center mt-8">
+                            <div class="text-[#EAB348] font-bold text-xl mb-2">Welcome to join <br> Fynor</div>
+                            <div class="flex gap-2 justify-center mt-4">
+                                <a href="login.html" class="bg-gray-200 text-xs px-3 py-1 rounded hover:bg-gray-300 transition-colors font-medium inline-flex items-center justify-center">Log in</a>
+                                <a href="register.html" class="bg-[#EAB348] text-white text-xs px-3 py-1 rounded hover:bg-[#d4a03d] transition-colors font-medium inline-flex items-center justify-center">Sign up</a>
+                            </div>
+                            <div class="mt-8 flex justify-center">
+                                <img src="https://via.placeholder.com/150x150?text=App+UI" alt="App UI" class="opacity-50 rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center md:text-left space-y-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#EAB348]">Trade anytime, anywhere!</h2>
+                    <p class="text-gray-400">Download the app, and all transactions are at your fingertips</p>
+                    <div class="flex flex-col md:flex-row items-center gap-6 mt-8">
+                        <div class="bg-white p-2 rounded-lg">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://fynor.com" alt="QR Code" class="w-32 h-32">
+                        </div>
+                        <div class="space-y-3">
+                            <button class="flex items-center gap-3 bg-[#222] hover:bg-[#333] border border-[#444] rounded-full px-6 py-3 w-48 transition-colors">
+                                <i class="fa-brands fa-android text-[#EAB348] text-xl"></i>
+                                <div class="text-left">
+                                    <div class="text-xs text-gray-400">Download for</div>
+                                    <div class="text-sm font-bold">Android APK</div>
+                                </div>
+                            </button>
+                            <button class="flex items-center gap-3 bg-[#222] hover:bg-[#333] border border-[#444] rounded-full px-6 py-3 w-48 transition-colors">
+                                <i class="fa-brands fa-apple text-white text-xl"></i>
+                                <div class="text-left">
+                                    <div class="text-xs text-gray-400">Download on the</div>
+                                    <div class="text-sm font-bold">App Store</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Description -->
+    <section class="py-20 bg-black">
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-[#EAB348] mb-4">Product description</h2>
+                <p class="text-gray-400">Start your cryptocurrency journey with FYNOR</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="feature-card bg-[#0d0d0d] border border-[#222] rounded-xl p-8 relative overflow-hidden group h-48 cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-lg group-hover:text-[#EAB348] transition-colors">Spot Trading</h3>
+                        <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-[80%]">Provides more than 200 spot trading pairs</p>
+                    <div class="absolute bottom-4 right-4 w-12 h-12 bg-[#222] rounded-full flex items-center justify-center text-[#EAB348] border border-[#333]">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                    </div>
+                </div>
+                <div class="feature-card bg-[#0d0d0d] border border-[#222] rounded-xl p-8 relative overflow-hidden group h-48 cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-lg group-hover:text-[#EAB348] transition-colors">Contract trading</h3>
+                        <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-[80%]">Provide loan transactions to amplify players' profits</p>
+                    <div class="absolute bottom-4 right-4 w-12 h-12 bg-[#222] rounded-full flex items-center justify-center text-white border border-[#333]"><span class="font-bold font-serif">U</span></div>
+                </div>
+                <div class="feature-card bg-[#0d0d0d] border border-[#222] rounded-xl p-8 relative overflow-hidden group h-48 cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-lg group-hover:text-[#EAB348] transition-colors">Register and download</h3>
+                        <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-[80%]">FYNOR has a security team composed of the world's top experts to provide bank-grade secure storage...</p>
+                    <div class="absolute bottom-4 right-4 w-12 h-12 bg-[#222] rounded-full flex items-center justify-center text-[#EAB348] border border-[#333]">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                </div>
+                <div class="feature-card bg-[#0d0d0d] border border-[#222] rounded-xl p-8 relative overflow-hidden group h-48 cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-lg group-hover:text-[#EAB348] transition-colors">Buy and sell</h3>
+                        <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-[80%]">Through the FYNOR platform, use legal currency to purchase digital assets, or sell digital assets...</p>
+                    <div class="absolute bottom-4 right-4 w-12 h-12 bg-[#222] rounded-full flex items-center justify-center text-[#EAB348] border border-[#333]">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                </div>
+                <div class="feature-card bg-[#0d0d0d] border border-[#222] rounded-xl p-8 relative overflow-hidden group h-48 cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-lg group-hover:text-[#EAB348] transition-colors">Account security</h3>
+                        <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-[80%]">Personalized access mechanism, restricting access to personal account devices and addresses...</p>
+                    <div class="absolute bottom-4 right-4 w-12 h-12 bg-[#222] rounded-full flex items-center justify-center text-[#EAB348] border border-[#333]">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                </div>
+                <div class="feature-card bg-[#0d0d0d] border border-[#222] rounded-xl p-8 relative overflow-hidden group h-48 cursor-default">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-lg group-hover:text-[#EAB348] transition-colors">User Center</h3>
+                        <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-[80%]">The basic introduction and advantages of FYNOR products can be viewed in the user center.</p>
+                    <div class="absolute bottom-4 right-4 w-12 h-12 bg-[#222] rounded-full flex items-center justify-center text-white border border-[#333]">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-black">
+        <div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-[#EAB348] text-center mb-16">FAQ</h2>
+            <div class="space-y-4">
+                <details class="group bg-black">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none py-6 border-b border-[#222]">
+                        <span class="text-white group-hover:text-[#EAB348] transition-colors">How to buy digital currency?</span>
+                        <span class="transition group-open:rotate-45"><i class="fa-solid fa-plus bg-white text-black p-1 rounded-sm text-xs"></i></span>
+                    </summary>
+                    <div class="text-gray-400 mt-4 pb-4">To buy digital currency, log in to your account, navigate to the "Buy Crypto" section, select your preferred currency and payment method, and follow the instructions.</div>
+                </details>
+                <details class="group bg-black">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none py-6 border-b border-[#222]">
+                        <span class="text-white group-hover:text-[#EAB348] transition-colors">How to complete personal identity authentication?</span>
+                        <span class="transition group-open:rotate-45"><i class="fa-solid fa-plus bg-white text-black p-1 rounded-sm text-xs"></i></span>
+                    </summary>
+                    <div class="text-gray-400 mt-4 pb-4">Go to User Center > Identification. Upload your government-issued ID and complete the facial recognition process.</div>
+                </details>
+                <details class="group bg-black">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none py-6 border-b border-[#222]">
+                        <span class="text-white group-hover:text-[#EAB348] transition-colors">How to reset password?</span>
+                        <span class="transition group-open:rotate-45"><i class="fa-solid fa-plus bg-white text-black p-1 rounded-sm text-xs"></i></span>
+                    </summary>
+                    <div class="text-gray-400 mt-4 pb-4">Click "Forgot Password" on the login page. Enter your email/phone to receive a verification code and reset your password.</div>
+                </details>
+                <details class="group bg-black">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none py-6 border-b border-[#222]">
+                        <span class="text-white group-hover:text-[#EAB348] transition-colors">How to download FYNOR?</span>
+                        <span class="transition group-open:rotate-45"><i class="fa-solid fa-plus bg-white text-black p-1 rounded-sm text-xs"></i></span>
+                    </summary>
+                    <div class="text-gray-400 mt-4 pb-4">Scan the QR code in the "App Download" section or click the download buttons for Android or iOS.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="py-16 bg-[#1a1a1a] border-t border-[#222] text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-2xl md:text-2xl font-bold text-[#EAB348] mb-8">Register for a chance to receive up to 1,000 USDT in trial funds and a mystery bonus.</h2>
+            <a href="register.html" class="btn-gold px-12 py-3 rounded-full text-sm font-bold shadow-lg hover:opacity-90 transition-opacity inline-block">Sign Up</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black pt-16 pb-8 border-t border-[#222]">
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
+                <div class="md:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-6 h-6 text-[#EAB348]">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h10a2 2 0 0 1 2 2v2a1 1 0 0 1-2 0V6H6v12h4a1 1 0 0 1 0 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+                        </div>
+                        <span class="font-bold tracking-wide">FYNOR</span>
+                    </div>
+                    <div class="flex gap-4 text-gray-500 text-lg">
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-brands fa-pinterest"></i></a>
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                    <div class="flex gap-4 text-gray-500 text-lg mt-4">
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="hover:text-[#EAB348]"><i class="fa-brands fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="hidden md:block"></div>
+                <div>
+                    <h4 class="text-sm font-medium text-gray-500 mb-6">about Us</h4>
+                    <ul class="space-y-4 text-xs text-gray-400">
+                        <li><a href="#" class="hover:text-[#EAB348]">User Agreement</a></li>
+                        <li><a href="#" class="hover:text-[#EAB348]">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-medium text-gray-500 mb-6">Disclaimer</h4>
+                    <ul class="space-y-4 text-xs text-gray-400">
+                        <li><a href="#" class="hover:text-[#EAB348]">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-[#EAB348]">Token Listing</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-[#222] pt-8 text-center">
+                <p class="text-xs text-gray-500">Copyright © 2026 FYNOR. All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Chat Icon -->
     <div class="fixed bottom-8 right-8 z-50">
-        <button class="w-12 h-12 bg-brand-gold hover:bg-brand-goldHover text-black rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+        <button class="bg-[#EAB348] w-12 h-12 rounded-full flex items-center justify-center text-black shadow-lg hover:scale-110 transition-transform">
+            <i class="fa-solid fa-comment-dots text-xl"></i>
         </button>
     </div>
 
     <script src="js/components.js"></script>
     <script src="app.js"></script>
+    <script>
+        function showAlert(msg, type) {
+            const alertEl = document.getElementById('alertMessage');
+            if (alertEl) {
+                alertEl.className = 'alert alert-' + type;
+                alertEl.textContent = msg;
+                alertEl.classList.remove('hidden');
+                setTimeout(() => alertEl.classList.add('hidden'), 5000);
+            }
+        }
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function(e) {
+            const userMenu = document.getElementById('userMenu');
+            const dropdown = document.getElementById('userDropdown');
+            if (!userMenu.contains(e.target) && userMenu.style.display !== 'none') {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
 
 </body>
 </html>

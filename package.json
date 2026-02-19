@@ -1,10 +1,16 @@
 {
     "name": "fynor-clone-monorepo",
     "version": "1.0.0",
-    "description": "Monorepo for Fynor Clone",
+    "description": "Monorepo for Fynor Clone - A cryptocurrency trading platform",
     "private": true,
     "scripts": {
         "start": "bash start.sh",
-        "build": "cd backend && npm install"
-    }
+        "dev": "bash start.sh",
+        "setup": "bash setup.sh",
+        "build": "cd backend && npm install",
+        "prod": "NODE_ENV=production cd backend && npm install && npm start"
+    },
+    "keywords": ["crypto", "trading", "exchange"],
+    "author": "FYNOR",
+    "license": "MIT"
 }
