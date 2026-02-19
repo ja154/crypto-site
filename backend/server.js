@@ -45,10 +45,10 @@ app.use(passport.session());
 
 // Passport Google OAuth Strategy
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
-  },
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL
+},
   async (accessToken, refreshToken, profile, done) => {
     try {
       // Check if user exists
@@ -141,7 +141,7 @@ app.get('/auth/google/callback',
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
-    
+
     // Redirect to frontend with token
     res.redirect(`${process.env.FRONTEND_URL}?token=${token}`);
   }
@@ -151,7 +151,7 @@ app.get('/auth/google/callback',
 app.post('/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     const result = await pool.query(
       'SELECT * FROM users WHERE email = $1',
       [email]
@@ -162,13 +162,13 @@ app.post('/auth/login', async (req, res) => {
     }
 
     const user = result.rows[0];
-    
+
     if (!user.password) {
       return res.status(401).json({ error: 'Please use Google Sign In' });
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
-    
+
     if (!validPassword) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
@@ -198,7 +198,7 @@ app.post('/auth/login', async (req, res) => {
 app.post('/auth/register', async (req, res) => {
   try {
     const { email, password, full_name } = req.body;
-    
+
     // Check if user exists
     const existing = await pool.query(
       'SELECT * FROM users WHERE email = $1',
@@ -309,7 +309,7 @@ app.get('/market/trades/:symbol', async (req, res) => {
     const rawSymbol = req.params.symbol;
     const symbol = normalizeSymbolParam(rawSymbol);
     const limit = req.query.limit || 50;
-    
+
     const result = await pool.query(
       `SELECT * FROM trades WHERE symbol = $1 
        ORDER BY created_at DESC LIMIT $2`,
@@ -359,12 +359,12 @@ app.get('/wallet/transactions', authenticateToken, async (req, res) => {
 // Place order
 app.post('/trading/order', authenticateToken, async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     const { side, type, price, quantity } = req.body;
     const rawSymbol = req.body.symbol;
     const symbol = normalizeSymbolParam(rawSymbol);
-    
+
     await client.query('BEGIN');
 
     // Validate trading pair
@@ -379,10 +379,10 @@ app.post('/trading/order', authenticateToken, async (req, res) => {
     }
 
     const pair = pairResult.rows[0];
-    
+
     // Check user balance
     const currency = side === 'BUY' ? pair.quote_asset : pair.base_asset;
-    const requiredAmount = side === 'BUY' 
+    const requiredAmount = side === 'BUY'
       ? parseFloat(price) * parseFloat(quantity)
       : parseFloat(quantity);
 
@@ -391,8 +391,8 @@ app.post('/trading/order', authenticateToken, async (req, res) => {
       [req.user.id, currency]
     );
 
-    if (walletResult.rows.length === 0 || 
-        parseFloat(walletResult.rows[0].balance) < requiredAmount) {
+    if (walletResult.rows.length === 0 ||
+      parseFloat(walletResult.rows[0].balance) < requiredAmount) {
       await client.query('ROLLBACK');
       return res.status(400).json({ error: 'Insufficient balance' });
     }
@@ -443,10 +443,10 @@ app.get('/trading/orders', authenticateToken, async (req, res) => {
 // Cancel order
 app.delete('/trading/order/:id', authenticateToken, async (req, res) => {
   const client = await pool.connect();
-  
+
   try {
     const { id } = req.params;
-    
+
     await client.query('BEGIN');
 
     const orderResult = await client.query(
@@ -480,7 +480,7 @@ app.delete('/trading/order/:id', authenticateToken, async (req, res) => {
     const pair = pairResult.rows[0];
     const currency = order.side === 'BUY' ? pair.quote_asset : pair.base_asset;
     const remaining = parseFloat(order.quantity) - parseFloat(order.filled);
-    const amount = order.side === 'BUY' 
+    const amount = order.side === 'BUY'
       ? parseFloat(order.price) * remaining
       : remaining;
 
@@ -541,6 +541,14 @@ wss.on('connection', (ws) => {
     clearInterval(interval);
     console.log('📡 WebSocket connection closed');
   });
+});
+
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Handle SPA routing - redirect all other requests to index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
 module.exports = app;

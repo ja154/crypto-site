@@ -1,0 +1,10 @@
+{
+    "name": "fynor-clone-monorepo",
+    "version": "1.0.0",
+    "description": "Monorepo for Fynor Clone",
+    "private": true,
+    "scripts": {
+        "start": "bash start.sh",
+        "build": "cd backend && npm install"
+    }
+}
