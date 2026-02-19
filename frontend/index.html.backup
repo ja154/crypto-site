@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FYNOR - The Most Trustworthy Blockchain Digital Asset</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            gold: '#dea638', // Main brand gold
+                            goldHover: '#c49230',
+                            black: '#000000',
+                            dark: '#0a0a0a', // Slightly lighter black for contrast
+                            card: '#121212', // Card background
+                            border: '#27272a', // Zinc 800
+                            green: '#10b981', // Crypto success
+                            red: '#f43f5e',   // Crypto danger
+                            text: '#9ca3af',  // Secondary text
+                        }
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #dea638 0%, #f59e0b 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for table if needed */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+        
+        .glass-effect {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Announcement banner gradients */
+        .banner-1 {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,240,0.9) 100%);
+        }
+        .banner-2 {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,240,0.9) 100%);
+        }
+    </style>
+</head>
+<body class="bg-brand-black text-white font-sans antialiased selection:bg-brand-gold selection:text-black min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-black/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Left: Logo & Links -->
+            <div class="flex items-center gap-12">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-8 h-8 relative">
+                         <!-- Abstract Wing/F Logo -->
+                        <svg viewBox="0 0 24 24" fill="none" class="w-full h-full text-brand-gold">
+                            <path d="M4 12C4 12 5.5 8 10 6C14.5 4 19 5 19 5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 16C5 16 7 13 11 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6C12 6 12 3 15 3C18 3 20 4 20 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-70"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold tracking-wide">FYNOR</span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                    <a href="market.html" class="hover:text-brand-gold transition-colors">Market</a>
+                    <!-- Spot Dropdown -->
+                    <div class="group relative cursor-pointer">
+                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
+                            Spot 
+                            <svg class="w-3 h-3 fill-none stroke-current transition-transform group-hover:stroke-brand-gold" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </span>
+                        <!-- Dropdown Menu -->
+                        <div class="absolute left-0 mt-0 w-48 bg-brand-card border border-brand-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-2">
+                            <a href="spot-classic.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors">
+                                <div class="font-medium">Classic</div>
+                                <div class="text-xs text-gray-500">Standard trading interface</div>
+                            </a>
+                            <a href="spot-advanced.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors">
+                                <div class="font-medium">Advanced</div>
+                                <div class="text-xs text-gray-500">Professional trading tools</div>
+                            </a>
+                            <a href="spot-margin.html" class="block px-4 py-2.5 text-gray-300 hover:text-brand-gold hover:bg-white/5 transition-colors border-t border-brand-border">
+                                <div class="font-medium">Margin</div>
+                                <div class="text-xs text-gray-500">Leverage trading</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="group relative cursor-pointer">
+                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
+                            Futures
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </span>
+                    </div>
+                    <div class="group relative cursor-pointer">
+                        <span class="flex items-center gap-1 hover:text-brand-gold transition-colors">
+                            AIEX
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Auth & Utilities -->
+            <div class="flex items-center gap-6">
+                <a href="login.html" class="text-sm font-medium hover:text-brand-gold transition-colors">Log In</a>
+                <a href="register.html" class="bg-brand-gold hover:bg-brand-goldHover text-black text-sm font-semibold px-5 py-2 rounded-md transition-all">Sign Up</a>
+                
+                <div class="flex items-center gap-4 text-gray-400 pl-2 border-l border-white/10">
+                    <button class="hover:text-white transition-colors text-sm">Download</button>
+                    <!-- Theme Icon -->
+                    <button class="hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+                    <!-- Lang Icon -->
+                    <button class="hover:text-white transition-colors flex items-center gap-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="text-xs">English</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 pb-12">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Hero Section -->
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-24">
+                
+                <!-- Hero Left: Text Content -->
+                <div class="space-y-8">
+                    <h1 class="text-5xl lg:text-6xl font-bold leading-tight">
+                        <span class="text-brand-gold">The Most Trustworthy</span>
+                        <br>
+                        <span class="text-white">Blockchain digital asset FYNOR</span>
+                    </h1>
+                    
+                    <!-- Input Group -->
+                    <div class="flex items-center gap-3 max-w-md pt-4">
+                        <div class="relative flex-grow">
+                            <input type="text" placeholder="Email/Phone" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors text-white placeholder-gray-500">
+                        </div>
+                        <a href="register.html" class="bg-brand-gold hover:bg-brand-goldHover text-black font-semibold px-8 py-3 rounded-lg transition-all whitespace-nowrap">Sign Up</a>
+                    </div>
+
+                    <!-- App Download -->
+                    <div class="pt-6">
+                        <p class="text-xs text-gray-500 mb-2">Download App</p>
+                        <div class="w-10 h-10 bg-white p-0.5 rounded flex items-center justify-center">
+                            <!-- QR Code Placeholder -->
+                            <div class="w-full h-full bg-black flex flex-wrap content-center justify-center p-[2px]">
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                                <div class="w-[3px] h-[3px] bg-white m-[1px]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right: Market Card -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+                    <!-- Card Tabs -->
+                    <div class="flex items-center gap-6 mb-6 text-sm">
+                        <button class="text-brand-gold font-medium border-b-2 border-brand-gold pb-1">Hot List</button>
+                        <button class="text-gray-400 hover:text-white transition-colors pb-1">Market value</button>
+                        <button class="text-gray-400 hover:text-white transition-colors pb-1">Top Gainers</button>
+                        <div class="ml-auto text-xs text-brand-gold cursor-pointer hover:underline">View more</div>
+                    </div>
+
+                    <!-- Table Rows -->
+                    <div class="space-y-5">
+                        <!-- Row 1 BTC -->
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#F7931A] flex items-center justify-center text-[10px] font-bold text-white">₿</div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">BTC</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">68832.32</div>
+                            <div class="text-sm font-medium text-brand-red">-2.43%</div>
+                        </div>
+
+                        <!-- Row 2 ETH -->
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#627EEA] flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 32 32"><path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm7.994-15.781L16.498 4 9 16.22l7.498 4.353 7.496-4.354zM24 17.616l-7.502 4.351L9 17.617l7.498 10.378L24 17.616z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">ETH</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">1984.40</div>
+                            <div class="text-sm font-medium text-brand-red">-4.26%</div>
+                        </div>
+
+                         <!-- Row 3 LTC -->
+                         <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#345D9D] flex items-center justify-center text-[10px] font-bold text-white">Ł</div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">LTC</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">54.61</div>
+                            <div class="text-sm font-medium text-brand-red">-2.74%</div>
+                        </div>
+
+                        <!-- Row 4 BCH -->
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#8DC351] flex items-center justify-center text-[10px] font-bold text-white">B</div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">BCH</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">557.6</div>
+                            <div class="text-sm font-medium text-brand-red">-0.82%</div>
+                        </div>
+
+                        <!-- Row 5 TRX -->
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors -mx-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-6 h-6 rounded-full bg-[#FF0013] flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2.5 12l19-9-9 19-2-7-8-3z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="text-white font-semibold text-sm">TRX</span>
+                                    <span class="text-gray-500 text-xs">/USDT</span>
+                                </div>
+                            </div>
+                            <div class="text-sm font-medium">0.2801</div>
+                            <div class="text-sm font-medium text-brand-red">-0.46%</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="grid grid-cols-3 gap-8 mb-24 max-w-4xl">
+                <div>
+                    <div class="text-3xl font-bold text-brand-gold mb-1">90+</div>
+                    <div class="text-xs text-gray-400">Countries Covered</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-brand-gold mb-1">300,000+</div>
+                    <div class="text-xs text-gray-400">Global Investors</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-brand-gold mb-1">50+</div>
+                    <div class="text-xs text-gray-400">Coins</div>
+                </div>
+            </div>
+
+            <!-- Announcements Section -->
+            <div class="mb-24">
+                <h2 class="text-2xl font-bold text-brand-gold mb-8">Announcements</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Left: List -->
+                    <div class="bg-brand-black border border-brand-border rounded-xl p-6 relative">
+                        <div class="space-y-6">
+                            <!-- Item 1 -->
+                            <div class="group cursor-pointer">
+                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
+                                    <span class="text-brand-red">📢</span>
+                                    <span class="line-clamp-1">Official Announcement | Fynor Unboxing Challenge Blind Box Challenge Officially Launched</span>
+                                </div>
+                                <div class="text-xs text-gray-500">2026-02-15 21:34</div>
+                            </div>
+                             <!-- Item 2 -->
+                             <div class="group cursor-pointer">
+                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
+                                    <span class="line-clamp-1">Fynor Invite Friends to Recharge and Earn Rebates Announcement (Enjoy 5% Rebate)</span>
+                                </div>
+                                <div class="text-xs text-gray-500">2026-01-24 18:59</div>
+                            </div>
+                             <!-- Item 3 -->
+                             <div class="group cursor-pointer">
+                                <div class="flex items-start gap-2 text-sm text-gray-200 hover:text-brand-gold transition-colors mb-1">
+                                    <span class="line-clamp-1">Fynor Direct Referral Member Recharge Lottery Event Announcement</span>
+                                </div>
+                                <div class="text-xs text-gray-500">2026-01-21 19:11</div>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-right">
+                            <a href="#" class="text-xs text-brand-gold hover:underline">View more</a>
+                        </div>
+                    </div>
+
+                    <!-- Right: Banners -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Banner 1 -->
+                        <div class="banner-1 rounded-xl p-4 relative overflow-hidden text-black group cursor-pointer transition-transform hover:scale-[1.02]">
+                            <div class="relative z-10">
+                                <div class="text-sm font-bold text-orange-400 mb-1">The most reliable</div>
+                                <div class="text-xs text-gray-600 mb-4 leading-tight">digital currency exchange</div>
+                                <button class="text-[10px] bg-yellow-600/20 text-yellow-700 px-2 py-1 rounded font-medium border border-yellow-600/30">application submission</button>
+                            </div>
+                            <!-- Illustration Placeholder -->
+                            <div class="absolute bottom-0 right-0 w-24 h-24 transform translate-x-4 translate-y-4">
+                                <svg class="w-full h-full text-yellow-400 opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                         <!-- Banner 2 -->
+                         <div class="banner-2 rounded-xl p-4 relative overflow-hidden text-black group cursor-pointer transition-transform hover:scale-[1.02]">
+                            <div class="relative z-10">
+                                <div class="text-sm font-bold text-orange-400 mb-1">The Invitation<br>Leaderboard</div>
+                                <div class="text-[10px] text-gray-400 mt-1 mb-2">Share the 11,000 USDT Reward!</div>
+                            </div>
+                            <!-- Illustration Placeholder -->
+                             <div class="absolute bottom-2 right-2 w-16 h-16 bg-yellow-400 rounded-full opacity-20 blur-xl"></div>
+                            <div class="absolute bottom-1 right-1 w-16 h-16">
+                                <div class="w-12 h-12 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-full flex items-center justify-center shadow-lg transform rotate-12 border-2 border-white">
+                                    <span class="text-white font-bold text-lg">₿</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom CTA Section -->
+            <div class="flex flex-col items-center justify-center pt-10 relative overflow-hidden">
+                <!-- Phone Mockup Top visible -->
+                <div class="relative w-full max-w-sm h-64 bg-transparent mx-auto flex justify-center items-end">
+                    <div class="w-48 h-full bg-white rounded-t-3xl border-[8px] border-b-0 border-gray-800 shadow-2xl relative overflow-hidden">
+                         <!-- Screen Content -->
+                         <div class="w-full h-full bg-white p-4 flex flex-col items-center pt-8">
+                             <div class="w-12 h-12 bg-gray-100 rounded-full mb-2"></div>
+                             <div class="w-24 h-2 bg-gray-100 rounded mb-4"></div>
+                             <div class="w-full h-20 bg-gray-50 rounded-lg border border-gray-100 mb-2"></div>
+                             <button class="w-full bg-brand-gold text-white text-[8px] py-1.5 rounded mt-auto mb-2">Log In</button>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8 z-10">
+                    <h2 class="text-3xl font-bold text-brand-gold mb-2">Trade anytime, anywhere!</h2>
+                    <p class="text-gray-400 text-sm">Download the app, and all transactions are at your fingertips</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Chat Widget Bubble -->
+    <div class="fixed bottom-8 right-8 z-50">
+        <button class="w-12 h-12 bg-brand-gold hover:bg-brand-goldHover text-black rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+        </button>
+    </div>
+
+    <script src="js/components.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
