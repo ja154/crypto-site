@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const WebSocket = require('ws');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,6 +28,41 @@ pool.connect((err, client, release) => {
     release();
   }
 });
+
+// Database schema initialization function
+async function initializeDatabase() {
+  try {
+    // Check if tables exist
+    const result = await pool.query(
+      `SELECT EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_name = 'users'
+      )`
+    );
+
+    if (result.rows[0].exists) {
+      console.log('✅ Database schema already initialized');
+      return;
+    }
+
+    console.log('📊 Initializing database schema...');
+    const schemaPath = path.join(__dirname, 'schema.sql');
+    const schema = fs.readFileSync(schemaPath, 'utf8');
+    
+    // Execute schema line by line to handle multiple statements
+    const statements = schema.split(';').filter(stmt => stmt.trim());
+    for (const statement of statements) {
+      if (statement.trim()) {
+        await pool.query(statement);
+      }
+    }
+    
+    console.log('✅ Database schema initialized successfully');
+  } catch (error) {
+    console.error('❌ Error initializing database schema:', error.message);
+    console.log('⚠️  Continuing startup - you may need to run: psql -d fynor_clone -f backend/schema.sql');
+  }
+}
 
 // Middleware
 app.use(cors({
@@ -510,9 +547,20 @@ app.get('/health', (req, res) => {
 });
 
 // Start server
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+async function startServer() {
+  try {
+    await initializeDatabase();
+    const server = app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+    return server;
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+const server = startServer();
 
 // WebSocket server for real-time updates
 const wss = new WebSocket.Server({ server });

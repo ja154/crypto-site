@@ -1,6 +1,16 @@
 // FYNOR Clone - JavaScript Application
 
-const API_URL = 'http://localhost:3000';
+// Dynamically determine API URL based on environment
+const API_URL = (() => {
+  // In production, use the same domain as the frontend
+  // In development with localhost:3000 backend, use it directly
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:3000';
+  }
+  // In production, use the current origin (same domain)
+  return window.location.origin;
+})();
+
 let authToken = null;
 let currentUser = null;
 let ws = null;
