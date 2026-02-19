@@ -223,20 +223,29 @@ async function loadCurrentUser() {
 }
 
 function updateUIForLoggedInUser() {
-    document.getElementById('authButtons').style.display = 'none';
-    document.getElementById('userMenu').style.display = 'block';
-    document.getElementById('userName').textContent = currentUser.full_name || currentUser.email;
+    const authButtons = document.getElementById('authButtons');
+    const userMenu = document.getElementById('userMenu');
+    const userName = document.getElementById('userName');
+    const userAvatar = document.getElementById('userAvatar');
 
-    if (currentUser.avatar_url) {
-        document.getElementById('userAvatar').src = currentUser.avatar_url;
-    } else {
-        document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.full_name || currentUser.email)}&background=3b82f6&color=fff`;
+    if (authButtons) authButtons.style.display = 'none';
+    if (userMenu) userMenu.style.display = 'block';
+    if (userName) userName.textContent = currentUser.full_name || currentUser.email;
+
+    if (userAvatar) {
+        if (currentUser.avatar_url) {
+            userAvatar.src = currentUser.avatar_url;
+        } else {
+            userAvatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.full_name || currentUser.email)}&background=3b82f6&color=fff`;
+        }
     }
 }
 
 function toggleUserDropdown() {
     const dropdown = document.getElementById('userDropdown');
-    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    if (dropdown) {
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    }
 }
 
 function logout() {
@@ -244,8 +253,10 @@ function logout() {
     currentUser = null;
     localStorage.removeItem('authToken');
 
-    document.getElementById('authButtons').style.display = 'flex';
-    document.getElementById('userMenu').style.display = 'none';
+    const authButtons = document.getElementById('authButtons');
+    const userMenu = document.getElementById('userMenu');
+    if (authButtons) authButtons.style.display = 'flex';
+    if (userMenu) userMenu.style.display = 'none';
 
     showAlert('Logged out successfully', 'info');
 }
