@@ -16,3 +16,9 @@
     at loadHeader (http://localhost:8080/js/components.js:83:59)
     at HTMLDocument.<anonymous> (http://localhost:8080/js/components.js:312:5)
 [  322285ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://via.placeholder.com/150x150?text=App+UI:0
+[  656402ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/:63
+[  658714ms] [WARNING] cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation @ https://cdn.tailwindcss.com/:63
+[  659102ms] TypeError: Cannot set properties of null (setting 'innerHTML')
+    at loadHeader (http://localhost:8080/js/components.js:83:59)
+    at HTMLDocument.<anonymous> (http://localhost:8080/js/components.js:312:5)
+[  704812ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://via.placeholder.com/150x150?text=App+UI:0
