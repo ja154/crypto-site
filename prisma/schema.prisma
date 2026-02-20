@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String   @id
+  email       String   @unique
+  fullName    String?  @map("full_name")
+  avatarUrl   String?  @map("avatar_url")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  wallets      Wallet[]
+  orders       Order[]
+  transactions Transaction[]
+
+  @@map("users")
+}
+
+model Wallet {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  currency      String   @db.VarChar(10)
+  balance       Decimal  @default(0) @db.Decimal(20, 8)
+  lockedBalance Decimal  @default(0) @map("locked_balance") @db.Decimal(20, 8)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, currency])
+  @@index([userId])
+  @@map("wallets")
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  userId    String      @map("user_id")
+  symbol    String      @db.VarChar(20)
+  side      OrderSide
+  type      OrderType
+  price     Decimal?    @db.Decimal(20, 8)
+  quantity  Decimal     @db.Decimal(20, 8)
+  filled    Decimal     @default(0) @db.Decimal(20, 8)
+  status    OrderStatus @default(OPEN)
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  buyerTrades  Trade[] @relation("BuyerOrder")
+  sellerTrades Trade[] @relation("SellerOrder")
+
+  @@index([userId])
+  @@index([symbol])
+  @@index([status])
+  @@map("orders")
+}
+
+model Trade {
+  id            String   @id @default(uuid())
+  symbol        String   @db.VarChar(20)
+  price         Decimal  @db.Decimal(20, 8)
+  quantity      Decimal  @db.Decimal(20, 8)
+  buyerOrderId  String?  @map("buyer_order_id")
+  sellerOrderId String?  @map("seller_order_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  buyerOrder  Order? @relation("BuyerOrder", fields: [buyerOrderId], references: [id])
+  sellerOrder Order? @relation("SellerOrder", fields: [sellerOrderId], references: [id])
+
+  @@index([symbol])
+  @@map("trades")
+}
+
+model Transaction {
+  id        String            @id @default(uuid())
+  userId    String            @map("user_id")
+  type      TransactionType
+  currency  String            @db.VarChar(10)
+  amount    Decimal           @db.Decimal(20, 8)
+  status    TransactionStatus @default(PENDING)
+  txHash    String?           @map("tx_hash") @db.VarChar(255)
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime          @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("transactions")
+}
+
+enum OrderSide {
+  BUY
+  SELL
+}
+
+enum OrderType {
+  MARKET
+  LIMIT
+}
+
+enum OrderStatus {
+  OPEN
+  FILLED
+  PARTIAL
+  CANCELLED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
