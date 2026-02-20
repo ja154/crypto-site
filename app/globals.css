@@ -1,0 +1,154 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  /* Brand color tokens */
+  --color-brand-yellow: #FCD535;
+  --color-brand-gold: #EAB348;
+  --color-brand-dark: #0B0C0E;
+  --color-brand-surface: #16171B;
+  --color-brand-surface-hover: #1E2026;
+  --color-brand-success: #0ECB81;
+  --color-brand-danger: #F6465D;
+  --color-brand-text-sub: #848E9C;
+  --color-brand-border: #252930;
+}
+
+/* Light mode (default) */
+:root {
+  --radius: 0.5rem;
+  --background: #FFFFFF;
+  --foreground: #0B0C0E;
+  --card: #F8F9FA;
+  --card-foreground: #0B0C0E;
+  --popover: #FFFFFF;
+  --popover-foreground: #0B0C0E;
+  --primary: #F0B90B;
+  --primary-foreground: #0B0C0E;
+  --secondary: #F1F3F5;
+  --secondary-foreground: #0B0C0E;
+  --muted: #F1F3F5;
+  --muted-foreground: #6B7280;
+  --accent: #F1F3F5;
+  --accent-foreground: #0B0C0E;
+  --destructive: #F6465D;
+  --border: #E4E7EC;
+  --input: #E4E7EC;
+  --ring: #F0B90B;
+  --chart-1: #0ECB81;
+  --chart-2: #F6465D;
+  --chart-3: #FCD535;
+  --chart-4: #EAB348;
+  --chart-5: #848E9C;
+  --sidebar: #F8F9FA;
+  --sidebar-foreground: #0B0C0E;
+  --sidebar-primary: #F0B90B;
+  --sidebar-primary-foreground: #0B0C0E;
+  --sidebar-accent: #F1F3F5;
+  --sidebar-accent-foreground: #0B0C0E;
+  --sidebar-border: #E4E7EC;
+  --sidebar-ring: #F0B90B;
+}
+
+/* Keep dark class consistent for when it's explicitly set */
+.dark {
+  --background: #0B0C0E;
+  --foreground: #EAECEF;
+  --card: #16171B;
+  --card-foreground: #EAECEF;
+  --popover: #1E2026;
+  --popover-foreground: #EAECEF;
+  --primary: #FCD535;
+  --primary-foreground: #0B0C0E;
+  --secondary: #1E2026;
+  --secondary-foreground: #EAECEF;
+  --muted: #1E2026;
+  --muted-foreground: #848E9C;
+  --accent: #252930;
+  --accent-foreground: #EAECEF;
+  --destructive: #F6465D;
+  --border: #252930;
+  --input: #252930;
+  --ring: #FCD535;
+  --chart-1: #0ECB81;
+  --chart-2: #F6465D;
+  --chart-3: #FCD535;
+  --chart-4: #EAB348;
+  --chart-5: #848E9C;
+  --sidebar: #16171B;
+  --sidebar-foreground: #EAECEF;
+  --sidebar-primary: #FCD535;
+  --sidebar-primary-foreground: #0B0C0E;
+  --sidebar-accent: #1E2026;
+  --sidebar-accent-foreground: #EAECEF;
+  --sidebar-border: #252930;
+  --sidebar-ring: #FCD535;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Price color utilities */
+.text-up { color: #0ECB81; }
+.text-down { color: #F6465D; }
+.bg-up { background-color: rgba(14, 203, 129, 0.1); }
+.bg-down { background-color: rgba(246, 70, 93, 0.1); }
+
+/* Ticker strip animation */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-strip {
+  animation: ticker-scroll 40s linear infinite;
+}
+.ticker-strip:hover {
+  animation-play-state: paused;
+}
